@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "github-api": "^2.2.0",
+    "moment": "^2.13.0",
     "react": "^15.1.0",
     "react-dom": "^15.1.0"
   }

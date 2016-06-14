@@ -1,22 +1,33 @@
 import React from 'react';
+import moment from 'moment';
 
 class PullRequest extends React.Component {
-  constructor(props) {
-    super(props);
 
+  formatTime(date) {
+    const momentDate = moment(date);
+    return momentDate.fromNow();
   }
 
   render() {
+    const pr = this.props.pullRequest;
     return (
-      <div>
+      <div className="pr-item">
         <div>
-          <a target="_blank" href={this.props.pullRequest.html_url}>
-            {this.props.pullRequest.title}
-          </a> 
-          <em>({this.props.pullRequest.base.repo.full_name})</em>
+          <img className="profile-picture" src={pr.user.avatar_url} alt={pr.user.login} title={pr.user.login} />
+        </div>
+        <div className="pr-main">
+          <div className="pr-title">
+            <a target="_blank" href={pr.html_url}>
+              {pr.title}
+            </a> 
+          </div>
+          <div className="pr-repo-name">
+            {pr.base.repo.full_name}
+          </div>
         </div>
         <div>
-          Last update: {new Date(this.props.pullRequest.updated_at).toString()}
+          created {this.formatTime(pr.created_at)} <br/>
+          updated {this.formatTime(pr.updated_at)}
         </div>
       </div>
     );
