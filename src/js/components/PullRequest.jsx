@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import UserPhoto from './UserPhoto';
+
 class PullRequest extends React.Component {
 
   formatTime(date) {
@@ -12,9 +14,7 @@ class PullRequest extends React.Component {
     const pr = this.props.pullRequest;
     return (
       <div className="pr-item">
-        <div>
-          <img className="profile-picture" src={pr.user.avatar_url} alt={pr.user.login} title={pr.user.login} />
-        </div>
+        <UserPhoto user={pr.user} />
         <div className="pr-main">
           <div className="pr-title">
             <a target="_blank" href={pr.html_url}>
