@@ -1,35 +1,70 @@
+/*body {*/
+  /*font-family: Helvetica, sans-serif;*/
+/*}*/
+
+/*.pr-item {*/
+  /*border: 1px solid #AAA;*/
+  /*background: #EEEEEE;*/
+  /*border-radius: 5px;*/
+  /*padding: 5px;*/
+  /*margin: 5px;*/
+  /*display: flex;*/
+  /*justify-content: space-between;*/
+  /*align-items: center;*/
+/*}*/
+
+/*.pr-item > div {*/
+  /*padding: 5px;*/
+/*}*/
+
+/*.pr-main {*/
+  /*flex-grow: 1;*/
+/*}*/
+
+/*.pr-title {*/
+  /*font-weight: bold;*/
+/*}*/
+
+/*.pr-repo-name {*/
+  /*font-size: 0.8em;*/
+/*}*/
+
 body {
-  font-family: Helvetica, sans-serif;
+  background-color: #EEEEEE;
 }
 
-.pr-item {
-  border: 1px solid #AAA;
-  background: #EEEEEE;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px;
+.glyphicon {
+  margin-right: 5px;
+}
+
+.pull-request .pr-repo-name {
+  padding: 0 5px 0 5px;;
+}
+
+.pull-request .panel-body {
   display: flex;
-  justify-content: space-between;
   align-items: center;
 }
 
-.pr-item > div {
-  padding: 5px;
-}
-
-.pr-main {
+.pull-request .pr-main {
   flex-grow: 1;
 }
 
-.pr-title {
+.pull-request .pr-last-updated {
+  font-size: 1.3em;
+}
+
+.pull-request .pr-title {
+  font-size: 1.5em;
   font-weight: bold;
+  padding: 0 5px 0 5px;
 }
 
-.pr-repo-name {
-  font-size: 0.8em;
+.user-photo {
+  padding: 5px;
 }
 
-.profile-picture {
+.user-photo img {
   border-radius: 5px;
 }
 

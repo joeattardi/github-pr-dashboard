@@ -40,8 +40,8 @@ class Main extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1>Pull Requests</h1>
+      <div className="container">
+        <h1>Open Pull Requests</h1>
         {this.renderBody()}
       </div>
     );

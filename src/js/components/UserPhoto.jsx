@@ -7,8 +7,8 @@ export default class UserPhoto extends React.Component {
     const size = this.props.size;
 
     return (
-      <div>
-        <img className="profile-picture" width={size} height={size} src={url} alt={username} title={username} />
+      <div className="user-photo">
+        <img width={size} height={size} src={url} alt={username} title={username} />
       </div>
     );
   }
