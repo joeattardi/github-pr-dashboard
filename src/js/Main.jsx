@@ -2,6 +2,7 @@ import React from 'react';
 
 import {getAllPullRequests} from './githubService';
 import PullRequest from './components/PullRequest';
+import config from '../config/config.json';
 
 class Main extends React.Component {
   constructor(props) {
@@ -14,7 +15,7 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    getAllPullRequests(['ES/galileo-engine', 'ES/galileo-editor', 'ES/galileo-button-editor']).then(pullRequests => {
+    getAllPullRequests(config.repos).then(pullRequests => {
       this.setState({
         pullRequests
       });

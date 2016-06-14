@@ -1,6 +1,7 @@
 import GitHub from 'github-api';
+import config from '../config/config.json';
 
-const github = new GitHub({}, 'https://github.roving.com/api/v3');
+const github = new GitHub({}, config.apiBaseUrl);
 
 export function getAllPullRequests(repoNames) {
   const repoObjects = repoNames.map(repoName => {
