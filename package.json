@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "See open PRs across repos in GitHub",
   "main": "index.js",
+  "repository": "joeattardi/github-pr-dashboard",
   "scripts": {
     "start": "webpack-dev-server",
     "lint": "eslint src"
