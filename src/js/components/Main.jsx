@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getAllPullRequests} from '../githubService';
+import {getAllPullRequests} from '../api/githubService';
 import PullRequest from './PullRequest';
 import LoadingIndicator from './LoadingIndicator';
 import config from '../../config/config.json';

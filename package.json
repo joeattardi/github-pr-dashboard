@@ -30,10 +30,10 @@
     "node-sass": "^3.7.0",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.1",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "github-api": "^2.2.0",
     "jquery": "^3.0.0",
     "moment": "^2.13.0",
     "react": "^15.1.0",
