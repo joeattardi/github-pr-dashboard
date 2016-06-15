@@ -23,10 +23,15 @@ class PullRequest extends React.Component {
             <div className="pr-title">
               <a target="_blank" href={pr.html_url}>{pr.title}</a>
             </div>
-            <div className="pr-repo-name">
-              <a target="_blank" href={pr.base.repo.html_url}>
-                {pr.base.repo.full_name}
-              </a>
+            <div className="pr-info">
+              <div className="pr-repo-name">
+                <a target="_blank" href={pr.base.repo.html_url}>
+                  {pr.base.repo.full_name}
+                </a>
+              </div>
+              <div className="pr-comment-count">
+                <span className="glyphicon glyphicon-comment"></span>{pr.comments}
+              </div>
             </div>
           </div>
           <div className="pr-last-updated">

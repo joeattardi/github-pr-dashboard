@@ -9,8 +9,13 @@ body {
 .pull-request {
   border-left: 5px solid #337AB7;
 
-  .pr-repo-name {
-    padding: 0 5px 0 5px;;
+  .pr-info {
+    padding: 0 5px 0 5px;
+    display: flex;
+
+    div {
+      padding: 0 5px 0 5px;
+    }
   }
 
   .panel-body {
