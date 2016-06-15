@@ -1,0 +1,43 @@
+body {
+  background-color: #EEEEEE;
+}
+
+.glyphicon {
+  margin-right: 5px;
+}
+
+.pull-request {
+  border-left: 5px solid #337AB7;
+
+  .pr-repo-name {
+    padding: 0 5px 0 5px;;
+  }
+
+  .panel-body {
+    display: flex;
+    align-items: center;
+  }
+
+  .pr-main {
+    flex-grow: 1;
+  }
+
+  .pr-last-updated {
+    font-size: 1.3em;
+  }
+
+  .pr-title {
+    font-size: 1.5em;
+    font-weight: bold;
+    padding: 0 5px 0 5px;
+  }
+}
+
+.user-photo {
+  padding: 5px;
+
+  img {
+    border-radius: 5px;
+  }
+}
+
