@@ -29,8 +29,11 @@ class PullRequest extends React.Component {
                   {pr.base.repo.full_name}
                 </a>
               </div>
+              <div>
+                #{pr.number}
+              </div>
               <div className="pr-comment-count">
-                <span className="glyphicon glyphicon-comment"></span>{pr.comments}
+                <span className="glyphicon glyphicon-comment"></span>{pr.comments} comments
               </div>
             </div>
           </div>
