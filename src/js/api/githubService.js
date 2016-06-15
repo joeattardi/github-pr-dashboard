@@ -1,4 +1,5 @@
 import $ from 'jquery';
+import Promise from 'bluebird';
 import config from '../../config/config.json';
 
 function loadPullRequestComments(owner, repo, number) {

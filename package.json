@@ -34,6 +34,7 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
+    "bluebird": "^3.4.0",
     "jquery": "^3.0.0",
     "moment": "^2.13.0",
     "react": "^15.1.0",
