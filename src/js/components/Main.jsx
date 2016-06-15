@@ -3,6 +3,8 @@ import React from 'react';
 import {getAllPullRequests} from '../api/githubService';
 import PullRequest from './PullRequest';
 import LoadingIndicator from './LoadingIndicator';
+import ErrorMessage from './ErrorMessage';
+
 import config from '../../config/config.json';
 
 class Main extends React.Component {
@@ -11,6 +13,7 @@ class Main extends React.Component {
 
     this.state = {
       loading: true,
+      error: undefined,
       pullRequests: []
     };
   }
@@ -21,12 +24,19 @@ class Main extends React.Component {
         pullRequests,
         loading: false
       });
+    }).catch(error => {
+      this.setState({
+        error: error.responseJSON.message,
+        loading: false
+      });
     });
   }
 
   renderBody() {
     if (this.state.loading) {
       return <LoadingIndicator />;
+    } else if (this.state.error) {
+      return <ErrorMessage message={this.state.error} />;
     } else {
       return (
         <div>
