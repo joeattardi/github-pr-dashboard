@@ -7,7 +7,7 @@ body {
 }
 
 .pull-request {
-  border-left: 5px solid #337AB7;
+  border-left: 10px solid #337AB7;
 
   .pr-info {
     padding: 0 5px 0 5px;
@@ -28,7 +28,11 @@ body {
   }
 
   .pr-last-updated {
-    font-size: 1.3em;
+    text-align: center;
+
+    .label {
+      font-size: 1.2em;
+    }
   }
 
   .pr-title {
