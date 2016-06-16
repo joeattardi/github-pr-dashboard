@@ -6,6 +6,19 @@ body {
   margin-right: 5px;
 }
 
+#toolbar {
+  margin: 10px;
+  display: flex;
+
+  #refresh-button {
+    margin-right: 5px;
+  }
+
+  #repo-selector {
+    margin: 0 5px 0 5px; 
+  }
+}
+
 .pull-request {
   border-left: 10px solid #337AB7;
 

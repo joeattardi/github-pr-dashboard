@@ -4,6 +4,7 @@ import { getPullRequestDetails, getAllPullRequests } from '../api/githubService'
 import PullRequest from './PullRequest';
 import LoadingIndicator from './LoadingIndicator';
 import ErrorMessage from './ErrorMessage';
+import Toolbar from './Toolbar';
 
 import config from '../../config/config.json';
 
@@ -16,9 +17,15 @@ class Main extends React.Component {
       error: undefined,
       pullRequests: []
     };
+
+    this.loadPullRequestData = this.loadPullRequestData.bind(this);
   }
 
   componentWillMount() {
+    this.loadPullRequestData();
+  }
+
+  loadPullRequestData() {
     getAllPullRequests(config.repos).then(pullRequests => {
       this.setState({
         pullRequests,
@@ -58,6 +65,7 @@ class Main extends React.Component {
     return (
       <div className="container">
         <h1>Open Pull Requests</h1>
+        <Toolbar onRefresh={this.loadPullRequestData} />
         {this.renderBody()}
       </div>
     );
