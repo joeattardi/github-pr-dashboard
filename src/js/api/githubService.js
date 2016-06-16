@@ -2,14 +2,11 @@ import $ from 'jquery';
 import Promise from 'bluebird';
 import config from '../../config/config.json';
 
-function loadPullRequestComments(owner, repo, number) {
-  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}/comments`;
-  return $.get({url});
-}
+let pullRequestData = [];
 
 function loadPullRequest(owner, repo, number) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}`;
-  return $.get({url});
+  return $.get({ url });
 }
 
 function loadPullRequests(owner, repo) {
@@ -31,18 +28,24 @@ export function getAllPullRequests(repoNames) {
       pullRequests = pullRequests.concat(result);
     });
 
-    return pullRequests.sort((a, b) =>
+    pullRequestData = pullRequests.sort((a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
     );
-  }).then(sortedPrs => {
-    const detailPromises = sortedPrs.map(pr => {
-      const repo = pr.base.repo;
-      return loadPullRequest(repo.owner.login, repo.name, pr.number);
-    });
 
-    return Promise.all(detailPromises).then(results => {
-      return results; 
-    });
+    return pullRequestData;
   });
+}
+
+/* eslint no-param-reassign: 0 */
+export function getPullRequestDetails() {
+  const promises = pullRequestData.map(pullRequest => {
+    const repo = pullRequest.base.repo;
+    return loadPullRequest(repo.owner.login, repo.name, pullRequest.number)
+      .then(pullRequestDetails => {
+        pullRequest.comments = pullRequestDetails.comments;
+      });
+  });
+
+  return Promise.all(promises).then(() => pullRequestData);
 }
 

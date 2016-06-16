@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {getAllPullRequests} from '../api/githubService';
+import { getPullRequestDetails, getAllPullRequests } from '../api/githubService';
 import PullRequest from './PullRequest';
 import LoadingIndicator from './LoadingIndicator';
 import ErrorMessage from './ErrorMessage';
@@ -24,9 +24,15 @@ class Main extends React.Component {
         pullRequests,
         loading: false
       });
-    }).catch(error => {
+    }).then(() => getPullRequestDetails())
+      .then(pullRequestDetails => {
+        this.setState({
+          pullRequests: pullRequestDetails
+        });
+      })
+    .catch(error => {
       this.setState({
-        error: error.responseJSON.message,
+        error,
         loading: false
       });
     });
@@ -37,15 +43,15 @@ class Main extends React.Component {
       return <LoadingIndicator />;
     } else if (this.state.error) {
       return <ErrorMessage message={this.state.error} />;
-    } else {
-      return (
-        <div>
-          {this.state.pullRequests.map(pullRequest => {
-            return <PullRequest key={pullRequest.id} pullRequest={pullRequest} />;
-          })}
-        </div>
-      );
     }
+
+    return (
+      <div>
+        {this.state.pullRequests.map(pullRequest =>
+          <PullRequest key={pullRequest.id} pullRequest={pullRequest} />
+        )}
+      </div>
+    );
   }
 
   render() {

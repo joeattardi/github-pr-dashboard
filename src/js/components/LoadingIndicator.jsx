@@ -1,9 +1,14 @@
 import React from 'react';
-import css from '../../css/loadingIndicator.css';
+import '../../css/loadingIndicator.css';
 
-export default function LoadingIndicator() {
+export default function LoadingIndicator(props) {
+  const style = {
+    width: props.size,
+    height: props.size
+  };
+
   return (
-    <div className="sk-fading-circle">
+    <div className="sk-fading-circle" style={style}>
       <div className="sk-circle1 sk-circle"></div>
       <div className="sk-circle2 sk-circle"></div>
       <div className="sk-circle3 sk-circle"></div>
@@ -19,3 +24,11 @@ export default function LoadingIndicator() {
     </div>
   );
 }
+
+LoadingIndicator.propTypes = {
+  size: React.PropTypes.number
+};
+
+LoadingIndicator.defaultProps = {
+  size: 40
+};

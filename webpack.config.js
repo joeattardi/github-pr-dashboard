@@ -1,3 +1,4 @@
+var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -14,11 +15,21 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
 
+  devtool: 'eval-source-map',
+
   devServer: {
     contentBase: 'dist'
   },
 
   module: {
+    preLoaders: [
+      {
+        test: /\.jsx?$/,
+        loader: 'eslint',
+        include: [path.resolve(__dirname, 'src')]
+      }
+    ],
+
     loaders: [
       {
         test: /\.css$/,

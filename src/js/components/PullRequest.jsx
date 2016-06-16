@@ -2,15 +2,30 @@ import React from 'react';
 import moment from 'moment';
 
 import UserPhoto from './UserPhoto';
+import LoadingIndicator from './LoadingIndicator';
 
-class PullRequest extends React.Component {
+export default class PullRequest extends React.Component {
 
   formatRelativeTime(date) {
     return moment(date).fromNow();
   }
 
   formatTime(date) {
-    return 'Last updated ' + moment(date).format('MMMM Do YYYY, h:mm:ss a');  
+    return `Last updated ${moment(date).format('MMMM Do YYYY, h:mm:ss a')}`;
+  }
+
+  renderComments() {
+    const comments = this.props.pullRequest.comments;
+
+    if (typeof comments === 'undefined') {
+      return <LoadingIndicator size={15} />;
+    }
+
+    return (
+      <div className="pr-comment-count">
+        <span className="glyphicon glyphicon-comment"></span>{comments} comments
+      </div>
+    );
   }
 
   render() {
@@ -32,9 +47,7 @@ class PullRequest extends React.Component {
               <div>
                 #{pr.number}
               </div>
-              <div className="pr-comment-count">
-                <span className="glyphicon glyphicon-comment"></span>{pr.comments} comments
-              </div>
+              {this.renderComments()}
             </div>
           </div>
           <div className="pr-last-updated">
@@ -48,4 +61,6 @@ class PullRequest extends React.Component {
   }
 }
 
-export default PullRequest;
+PullRequest.propTypes = {
+  pullRequest: React.PropTypes.object.isRequired
+};
