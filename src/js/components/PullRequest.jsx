@@ -33,7 +33,7 @@ export default class PullRequest extends React.Component {
     return (
       <div className="pull-request panel panel-default">
         <div className="panel-body">
-          <UserPhoto size="50" user={pr.user} />
+          <UserPhoto size={50} user={pr.user} />
           <div className="pr-main">
             <div className="pr-title">
               <a target="_blank" href={pr.html_url}>{pr.title}</a>
