@@ -3,7 +3,10 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './src/js/app.js',
+  entry: [
+    './src/js/app.js',
+    'bootstrap-loader'
+  ],
 
   output: {
     path: './dist',
