@@ -16,6 +16,7 @@ class Main extends React.Component {
     this.state = {
       loading: true,
       error: undefined,
+      failedRepos: [],
       pullRequests: []
     };
 
@@ -32,22 +33,30 @@ class Main extends React.Component {
     });
 
     getAllPullRequests(config.repos).then(pullRequests => {
-      this.setState({
-        pullRequests,
-        loading: false
-      });
+      if (pullRequests.failedRepos.length === config.repos.length) {
+        this.setState({
+          error: 'An error occurred while loading the pull request data.',
+          loading: false
+        });
+      } else {
+        this.setState({
+          pullRequests: pullRequests.pullRequests,
+          failedRepos: pullRequests.failedRepos,
+          loading: false
+        });
+      }
     }).then(() => getPullRequestDetails())
       .then(pullRequestDetails => {
         this.setState({
-          pullRequests: pullRequestDetails
+          pullRequests: pullRequestDetails.pullRequests
         });
       })
-    .catch(() => {
-      this.setState({
-        error: 'An error occurred while loading the pull request data.',
-        loading: false
+      .catch(() => {
+        this.setState({
+          error: 'An error occurred while loading the pull request data.',
+          loading: false
+        });
       });
-    });
   }
 
   renderLoading() {
@@ -60,6 +69,16 @@ class Main extends React.Component {
     return <div></div>;
   }
 
+  renderFailedRepos() {
+    return (
+      <div>
+        {this.state.failedRepos.map(failedRepo =>
+          <ErrorMessage message={`Failed to load pull request data for ${failedRepo}.`} />
+        )}
+      </div>
+    );
+  }
+
   renderBody() {
     if (this.state.error) {
       return <ErrorMessage message={this.state.error} />;
@@ -67,6 +86,7 @@ class Main extends React.Component {
 
     return (
       <div>
+        {this.renderFailedRepos()}
         {this.renderLoading()}
         {this.state.pullRequests.map(pullRequest =>
           <PullRequest key={pullRequest.id} pullRequest={pullRequest} />

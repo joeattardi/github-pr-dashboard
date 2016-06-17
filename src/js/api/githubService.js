@@ -3,7 +3,10 @@ import Promise from 'bluebird';
 import Base64 from 'Base64';
 import config from '../../config/config.json';
 
-let pullRequestData = [];
+const pullRequestData = {
+  pullRequests: [],
+  failedRepos: []
+};
 
 function getBasicAuth() {
   const auth = `${config.username}:${config.password}`;
@@ -29,24 +32,30 @@ function loadPullRequest(owner, repo, number) {
 
 function loadPullRequests(owner, repo) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls`;
-  return apiCall(url);
+  const promise = apiCall(url);
+  promise.catch(() => pullRequestData.failedRepos.push(`${owner}/${repo}`));
+  return promise;
 }
 
 export function getAllPullRequests(repoNames) {
+  pullRequestData.failedRepos = [];
+
   const promises = repoNames.map(repoName => {
     const [owner, repo] = repoName.split('/');
-    return loadPullRequests(owner, repo);
+    return Promise.resolve(loadPullRequests(owner, repo)).reflect();
   });
 
   return Promise.all(promises).then(results => {
     let pullRequests = [];
+
     results.forEach(result => {
-      pullRequests = pullRequests.concat(result);
+      if (result.isFulfilled()) {
+        pullRequests = pullRequests.concat(result.value());
+      }
     });
 
-    pullRequestData = pullRequests.sort((a, b) =>
-      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
-    );
+    pullRequestData.pullRequests = pullRequests.sort((a, b) =>
+        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
     return pullRequestData;
   });
@@ -54,11 +63,14 @@ export function getAllPullRequests(repoNames) {
 
 /* eslint no-param-reassign: 0 */
 export function getPullRequestDetails() {
-  const promises = pullRequestData.map(pullRequest => {
+  const promises = pullRequestData.pullRequests.map(pullRequest => {
     const repo = pullRequest.base.repo;
-    return loadPullRequest(repo.owner.login, repo.name, pullRequest.number)
-      .then(pullRequestDetails => {
-        pullRequest.comments = pullRequestDetails.comments;
+    return Promise.resolve(loadPullRequest(repo.owner.login, repo.name, pullRequest.number))
+      .reflect()
+      .then(result => {
+        if (result.isFulfilled()) {
+          pullRequest.comments = result.value().comments;
+        }
       });
   });
 
