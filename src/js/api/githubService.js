@@ -1,19 +1,35 @@
 import $ from 'jquery';
 import Promise from 'bluebird';
+import Base64 from 'Base64';
 import config from '../../config/config.json';
 
 let pullRequestData = [];
 
+function getBasicAuth() {
+  const auth = `${config.username}:${config.password}`;
+  const hash = Base64.btoa(auth);
+  return `Basic ${hash}`;
+}
+
+function apiCall(url) {
+  return $.get({
+    url,
+    beforeSend: xhr => {
+      if (config.username && config.password) {
+        xhr.setRequestHeader('Authorization', getBasicAuth());
+      }
+    }
+  });
+}
+
 function loadPullRequest(owner, repo, number) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}`;
-  return $.get({ url });
+  return apiCall(url);
 }
 
 function loadPullRequests(owner, repo) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls`;
-  return $.get({
-    url
-  });
+  return apiCall(url);
 }
 
 export function getAllPullRequests(repoNames) {
