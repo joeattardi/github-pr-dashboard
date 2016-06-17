@@ -5,6 +5,7 @@ import PullRequest from './PullRequest';
 import LoadingIndicator from './LoadingIndicator';
 import ErrorMessage from './ErrorMessage';
 import Toolbar from './Toolbar';
+import Footer from './Footer';
 
 import config from '../../config/config.json';
 
@@ -67,6 +68,7 @@ class Main extends React.Component {
         <h1>Open Pull Requests</h1>
         <Toolbar onRefresh={this.loadPullRequestData} />
         {this.renderBody()}
+        <Footer />
       </div>
     );
   }
