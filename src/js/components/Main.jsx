@@ -42,9 +42,9 @@ class Main extends React.Component {
           pullRequests: pullRequestDetails
         });
       })
-    .catch(error => {
+    .catch(() => {
       this.setState({
-        error,
+        error: 'An error occurred while loading the pull request data.',
         loading: false
       });
     });
