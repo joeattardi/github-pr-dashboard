@@ -1,13 +1,13 @@
 import React from 'react';
 
 import RefreshButton from './RefreshButton';
-import RepoSelector from './RepoSelector';
+import AutoRefreshControl from './AutoRefreshControl';
 
 export default function Toolbar(props) {
   return (
     <div id="toolbar">
       <RefreshButton onRefresh={props.onRefresh} />
-      <RepoSelector />
+      <AutoRefreshControl onRefresh={props.onRefresh} />
     </div>
   );
 }

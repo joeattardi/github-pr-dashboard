@@ -4,8 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   entry: [
-    './src/js/app.js',
-    'bootstrap-loader'
+    './src/js/app.js'
   ],
 
   output: {
