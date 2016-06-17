@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getPullRequestDetails, getAllPullRequests } from '../api/githubService';
 import PullRequest from './PullRequest';
-import LoadingIndicator from './LoadingIndicator';
+import LoadingOverlay from './LoadingOverlay';
 import ErrorMessage from './ErrorMessage';
 import Toolbar from './Toolbar';
 import Footer from './Footer';
@@ -27,6 +27,10 @@ class Main extends React.Component {
   }
 
   loadPullRequestData() {
+    this.setState({
+      loading: true
+    });
+
     getAllPullRequests(config.repos).then(pullRequests => {
       this.setState({
         pullRequests,
@@ -46,15 +50,24 @@ class Main extends React.Component {
     });
   }
 
-  renderBody() {
+  renderLoading() {
     if (this.state.loading) {
-      return <LoadingIndicator />;
-    } else if (this.state.error) {
+      return (
+        <LoadingOverlay />
+      );
+    }
+
+    return <div></div>;
+  }
+
+  renderBody() {
+    if (this.state.error) {
       return <ErrorMessage message={this.state.error} />;
     }
 
     return (
       <div>
+        {this.renderLoading()}
         {this.state.pullRequests.map(pullRequest =>
           <PullRequest key={pullRequest.id} pullRequest={pullRequest} />
         )}

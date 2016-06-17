@@ -3,6 +3,7 @@
   width: 40px;
   height: 40px;
   position: relative;
+  z-index: 150;
 }
 
 .sk-fading-circle .sk-circle {
