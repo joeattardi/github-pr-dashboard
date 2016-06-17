@@ -1,6 +1,8 @@
 import React from 'react';
 import config from '../../config/config.json';
 
+import RefreshButton from './RefreshButton';
+
 export default class Toolbar extends React.Component {
   constructor(props) {
     super(props);
@@ -17,15 +19,7 @@ export default class Toolbar extends React.Component {
     return (
       <div id="toolbar">
 
-        <button
-          id="refresh-button"
-          type="button"
-          className="btn btn-default"
-          onClick={this.props.onRefresh}
-        >
-          <span className="glyphicon glyphicon-refresh"></span>
-          Refresh
-        </button>
+        <RefreshButton onRefresh={this.props.onRefresh} />
 
         <div id="repo-selector" className="dropdown">
           <button
