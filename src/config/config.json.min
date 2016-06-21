@@ -1,0 +1,8 @@
+{
+  "apiBaseUrl": "https://github.roving.com/api/v3",
+  "repos": [
+    "ES/galileo-button-editor",
+    "ES/galileo-engine",
+    "ES/galileo-editor"
+  ]
+}

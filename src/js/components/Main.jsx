@@ -21,6 +21,7 @@ class Main extends React.Component {
     };
 
     this.loadPullRequestData = this.loadPullRequestData.bind(this);
+    this.updatePullRequestDetails = this.updatePullRequestDetails.bind(this);
   }
 
   componentWillMount() {
@@ -45,7 +46,7 @@ class Main extends React.Component {
           loading: false
         });
       }
-    }).then(() => getPullRequestDetails())
+    }).then(() => getPullRequestDetails(this.updatePullRequestDetails))
       .then(pullRequestDetails => {
         this.setState({
           pullRequests: pullRequestDetails.pullRequests
@@ -57,6 +58,12 @@ class Main extends React.Component {
           loading: false
         });
       });
+  }
+
+  updatePullRequestDetails(pullRequestData) {
+    this.setState({
+      pullRequests: pullRequestData.pullRequests
+    });
   }
 
   renderLoading() {

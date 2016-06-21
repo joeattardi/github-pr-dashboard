@@ -62,7 +62,7 @@ export function getAllPullRequests(repoNames) {
 }
 
 /* eslint no-param-reassign: 0 */
-export function getPullRequestDetails() {
+export function getPullRequestDetails(progressCallback) {
   const promises = pullRequestData.pullRequests.map(pullRequest => {
     const repo = pullRequest.base.repo;
     return Promise.resolve(loadPullRequest(repo.owner.login, repo.name, pullRequest.number))
@@ -70,6 +70,7 @@ export function getPullRequestDetails() {
       .then(result => {
         if (result.isFulfilled()) {
           pullRequest.comments = result.value().comments;
+          progressCallback(pullRequestData);
         }
       });
   });
