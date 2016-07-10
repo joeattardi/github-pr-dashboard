@@ -1,0 +1,15 @@
+{
+  extends: 'airbnb',
+  plugins: [
+      'react'
+  ],
+
+  env: {
+    browser: true,
+    jasmine: true
+  },
+
+  rules: {
+    'comma-dangle': 0
+  }
+}

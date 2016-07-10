@@ -23,7 +23,7 @@ export default class PullRequest extends React.Component {
 
     return (
       <div className="pr-comment-count">
-        <span className="glyphicon glyphicon-comment"></span>{comments} comments
+        <span className="glyphicon glyphicon-comment"></span>{comments}
       </div>
     );
   }
