@@ -25,10 +25,6 @@ class Main extends React.Component {
     this.updatePullRequestDetails = this.updatePullRequestDetails.bind(this);
   }
 
-  componentWillMount() {
-    // this.loadPullRequestData();
-  }
-
   loadPullRequestData() {
     this.setState({
       loading: true
@@ -114,5 +110,10 @@ class Main extends React.Component {
     );
   }
 }
+
+Main.propTypes = {
+  loading: React.PropTypes.bool.isRequired,
+  pullRequests: React.PropTypes.array.isRequired
+};
 
 export default connect(state => state)(Main);

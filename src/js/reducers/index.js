@@ -3,6 +3,7 @@ import { ActionTypes } from '../actions';
 export function loadingReducer(state = false, action) {
   switch (action.type) {
     case ActionTypes.START_LOADING:
+    case ActionTypes.REFRESH:
       return true;
     case ActionTypes.ADD_PULL_REQUESTS:
       return false;
@@ -30,6 +31,8 @@ export function pullRequestsReducer(state = [], action) {
 
         return pullRequest;
       });
+    case ActionTypes.REFRESH:
+      return [];
     default:
       return state;
   }

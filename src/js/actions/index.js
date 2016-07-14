@@ -31,15 +31,19 @@ export function addFailedRepo(failedRepo) {
   };
 }
 
-export function refresh() {
-  return {
-    type: ActionTypes.REFRESH
+export function loadPullRequests() {
+  return dispatch => {
+    dispatch({ type: ActionTypes.START_LOADING });
+    return getAllPullRequests(config.repos)
+      .then(pullRequestData => {
+        dispatch(addPullRequests(pullRequestData.pullRequests));
+      });
   };
 }
 
-export function loadPullRequests() {
-  return function (dispatch) {
-    dispatch({ type: ActionTypes.START_LOADING });
+export function refresh() {
+  return dispatch => {
+    dispatch({ type: ActionTypes.REFRESH });
     return getAllPullRequests(config.repos)
       .then(pullRequestData => {
         dispatch(addPullRequests(pullRequestData.pullRequests));
