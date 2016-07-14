@@ -1,5 +1,16 @@
 import { ActionTypes } from '../actions';
 
+export function loadingReducer(state = false, action) {
+  switch (action.type) {
+    case ActionTypes.START_LOADING:
+      return true;
+    case ActionTypes.ADD_PULL_REQUESTS:
+      return false;
+    default:
+      return state;
+  }
+}
+
 export function pullRequestsReducer(state = [], action) {
   switch (action.type) {
     case ActionTypes.ADD_PULL_REQUESTS:

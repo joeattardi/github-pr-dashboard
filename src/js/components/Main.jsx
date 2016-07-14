@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 import { getPullRequestDetails, getAllPullRequests } from '../api/githubService';
 import PullRequest from './PullRequest';
@@ -25,7 +26,7 @@ class Main extends React.Component {
   }
 
   componentWillMount() {
-    this.loadPullRequestData();
+    // this.loadPullRequestData();
   }
 
   loadPullRequestData() {
@@ -67,7 +68,7 @@ class Main extends React.Component {
   }
 
   renderLoading() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return (
         <LoadingOverlay />
       );
@@ -95,7 +96,7 @@ class Main extends React.Component {
       <div>
         {this.renderFailedRepos()}
         {this.renderLoading()}
-        {this.state.pullRequests.map(pullRequest =>
+        {this.props.pullRequests.map(pullRequest =>
           <PullRequest key={pullRequest.id} pullRequest={pullRequest} />
         )}
       </div>
@@ -114,4 +115,4 @@ class Main extends React.Component {
   }
 }
 
-export default Main;
+export default connect(state => state)(Main);
