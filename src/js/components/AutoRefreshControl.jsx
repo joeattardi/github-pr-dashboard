@@ -52,7 +52,7 @@ export default class AutoRefreshControl extends React.Component {
           id="auto-refresh"
           onClick={this.toggleAutoRefresh}
         />
-        <label htmlFor="auto-refresh">Auto-refresh every</label>
+        <label htmlFor="auto-refresh"><strong>Auto-refresh every</strong></label>
         <select
           onChange={this.setAutoRefreshTime}
           id="auto-refresh-time"

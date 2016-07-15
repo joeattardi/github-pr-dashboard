@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { refresh } from '../actions';
+import { refresh, loadPullRequests } from '../actions';
 import RefreshButton from './RefreshButton';
 import AutoRefreshControl from './AutoRefreshControl';
 
@@ -22,7 +22,10 @@ function mapStateToProps() { return {}; }
 
 function mapDispatchToProps(dispatch) {
   return {
-    refresh: () => dispatch(refresh())
+    refresh: () => {
+      dispatch(refresh());
+      dispatch(loadPullRequests());
+    }
   };
 }
 

@@ -40,11 +40,17 @@ export function pullRequestsReducer(state = [], action) {
 
 export function failedReposReducer(state = [], action) {
   switch (action.type) {
-    case ActionTypes.ADD_FAILED_REPO:
-      return [
-        ...state,
-        action.failedRepo
-      ];
+    case ActionTypes.SET_FAILED_REPOS:
+      return action.failedRepos;
+    default:
+      return state;
+  }
+}
+
+export function errorReducer(state = '', action) {
+  switch (action.type) {
+    case ActionTypes.SET_ERROR:
+      return action.error;
     default:
       return state;
   }

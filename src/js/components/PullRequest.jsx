@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 
 import UserPhoto from './UserPhoto';
-import LoadingIndicator from './LoadingIndicator';
 
 export default class PullRequest extends React.Component {
 
@@ -18,7 +17,7 @@ export default class PullRequest extends React.Component {
     const comments = this.props.pullRequest.comments;
 
     if (typeof comments === 'undefined') {
-      return <LoadingIndicator size={15} />;
+      return <div></div>;
     }
 
     return (

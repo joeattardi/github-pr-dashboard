@@ -25,7 +25,7 @@ function apiCall(url) {
   });
 }
 
-function loadPullRequest(owner, repo, number) {
+export function loadPullRequest(owner, repo, number) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}`;
   return apiCall(url);
 }
@@ -59,22 +59,5 @@ export function getAllPullRequests(repoNames) {
 
     return pullRequestData;
   });
-}
-
-/* eslint no-param-reassign: 0 */
-export function getPullRequestDetails(progressCallback) {
-  const promises = pullRequestData.pullRequests.map(pullRequest => {
-    const repo = pullRequest.base.repo;
-    return Promise.resolve(loadPullRequest(repo.owner.login, repo.name, pullRequest.number))
-      .reflect()
-      .then(result => {
-        if (result.isFulfilled()) {
-          pullRequest.comments = result.value().comments;
-          progressCallback(pullRequestData);
-        }
-      });
-  });
-
-  return Promise.all(promises).then(() => pullRequestData);
 }
 

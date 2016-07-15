@@ -1,19 +1,34 @@
-import { getAllPullRequests } from '../api/githubService';
+import { getAllPullRequests, loadPullRequest } from '../api/githubService';
 
 import config from '../../config/config.json';
 
 export const ActionTypes = {
   ADD_PULL_REQUESTS: 'ADD_PULL_REQUESTS',
   UPDATE_PULL_REQUEST: 'UPDATE_PULL_REQUEST',
-  ADD_FAILED_REPO: 'ADD_FAILED_REPO',
+  SET_FAILED_REPOS: 'SET_FAILED_REPOS',
   REFRESH: 'REFRESH',
-  START_LOADING: 'START_LOADING'
+  START_LOADING: 'START_LOADING',
+  SET_ERROR: 'SET_ERROR'
 };
+
+export function setError(error) {
+  return {
+    type: ActionTypes.SET_ERROR,
+    error
+  };
+}
 
 export function addPullRequests(pullRequests) {
   return {
     type: ActionTypes.ADD_PULL_REQUESTS,
     pullRequests
+  };
+}
+
+export function addFailedRepos(failedRepos) {
+  return {
+    type: ActionTypes.SET_FAILED_REPOS,
+    failedRepos
   };
 }
 
@@ -31,22 +46,34 @@ export function addFailedRepo(failedRepo) {
   };
 }
 
+export function loadPullRequestDetails(owner, repo, number) {
+  return dispatch =>
+    loadPullRequest(owner, repo, number)
+      .then(pullRequestData => {
+        dispatch(updatePullRequest(pullRequestData));
+      });
+}
+
 export function loadPullRequests() {
   return dispatch => {
     dispatch({ type: ActionTypes.START_LOADING });
     return getAllPullRequests(config.repos)
       .then(pullRequestData => {
         dispatch(addPullRequests(pullRequestData.pullRequests));
+        dispatch(addFailedRepos(pullRequestData.failedRepos));
+        return pullRequestData;
+      }).then(pullRequestData => {
+        pullRequestData.pullRequests.forEach(pullRequest => {
+          const repo = pullRequest.base.repo;
+          dispatch(loadPullRequestDetails(repo.owner.login, repo.name, pullRequest.number));
+        });
       });
   };
 }
 
 export function refresh() {
-  return dispatch => {
-    dispatch({ type: ActionTypes.REFRESH });
-    return getAllPullRequests(config.repos)
-      .then(pullRequestData => {
-        dispatch(addPullRequests(pullRequestData.pullRequests));
-      });
+  return {
+    type: ActionTypes.REFRESH
   };
 }
+

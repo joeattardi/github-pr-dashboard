@@ -1,68 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getPullRequestDetails, getAllPullRequests } from '../api/githubService';
 import PullRequest from './PullRequest';
 import LoadingOverlay from './LoadingOverlay';
 import ErrorMessage from './ErrorMessage';
 import Toolbar from './Toolbar';
 import Footer from './Footer';
 
-import config from '../../config/config.json';
-
 class Main extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      loading: true,
-      error: undefined,
-      failedRepos: [],
-      pullRequests: []
-    };
-
-    this.loadPullRequestData = this.loadPullRequestData.bind(this);
-    this.updatePullRequestDetails = this.updatePullRequestDetails.bind(this);
-  }
-
-  loadPullRequestData() {
-    this.setState({
-      loading: true
-    });
-
-    getAllPullRequests(config.repos).then(pullRequests => {
-      if (pullRequests.failedRepos.length === config.repos.length) {
-        this.setState({
-          error: 'An error occurred while loading the pull request data.',
-          loading: false
-        });
-      } else {
-        this.setState({
-          pullRequests: pullRequests.pullRequests,
-          failedRepos: pullRequests.failedRepos,
-          loading: false
-        });
-      }
-    }).then(() => getPullRequestDetails(this.updatePullRequestDetails))
-      .then(pullRequestDetails => {
-        this.setState({
-          pullRequests: pullRequestDetails.pullRequests
-        });
-      })
-      .catch(() => {
-        this.setState({
-          error: 'An error occurred while loading the pull request data.',
-          loading: false
-        });
-      });
-  }
-
-  updatePullRequestDetails(pullRequestData) {
-    this.setState({
-      pullRequests: pullRequestData.pullRequests
-    });
-  }
-
   renderLoading() {
     if (this.props.loading) {
       return (
@@ -76,7 +21,7 @@ class Main extends React.Component {
   renderFailedRepos() {
     return (
       <div>
-        {this.state.failedRepos.map(failedRepo =>
+        {this.props.failedRepos.map(failedRepo =>
           <ErrorMessage message={`Failed to load pull request data for ${failedRepo}.`} />
         )}
       </div>
@@ -84,8 +29,8 @@ class Main extends React.Component {
   }
 
   renderBody() {
-    if (this.state.error) {
-      return <ErrorMessage message={this.state.error} />;
+    if (this.props.error) {
+      return <ErrorMessage message={this.props.error} />;
     }
 
     return (
@@ -113,7 +58,9 @@ class Main extends React.Component {
 
 Main.propTypes = {
   loading: React.PropTypes.bool.isRequired,
-  pullRequests: React.PropTypes.array.isRequired
+  pullRequests: React.PropTypes.array.isRequired,
+  failedRepos: React.PropTypes.array.isRequired,
+  error: React.PropTypes.string.isRequired
 };
 
 export default connect(state => state)(Main);
