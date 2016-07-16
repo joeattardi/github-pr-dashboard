@@ -1,9 +1,10 @@
+$link-color: #02779E;
+$badge-color: #354250;
+$error-color: #C34444;
+
 body {
   background-color: #EEEEEE;
-}
-
-.glyphicon {
-  margin-right: 5px;
+  font-family: 'Open Sans', sans-serif;
 }
 
 .overlay {
@@ -34,10 +35,6 @@ footer {
     margin-right: 5px;
   }
 
-  #repo-selector {
-    margin: 0 5px 0 5px; 
-  }
-
   #auto-refresh {
     margin: 0 5px 0 5px;
   }
@@ -48,46 +45,101 @@ footer {
 }
 
 .pull-request {
-  border-left: 10px solid #337AB7;
+  align-items: center;
+  background-color: #FEFEFE;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  display: flex;
+  margin: 0.5rem;
+  padding: 0.5rem;
 
-  .pr-info {
-    padding: 0 5px 0 5px;
-    display: flex;
-
-    div {
-      padding: 0 5px 0 5px;
-    }
-  }
-
-  .panel-body {
-    display: flex;
-    align-items: center;
-  }
-
-  .pr-main {
+  .pull-request-info {
     flex-grow: 1;
   }
 
-  .pr-last-updated {
-    text-align: center;
-
-    .label {
-      font-size: 1.2em;
-    }
+  .pull-request-title {
+    font-weight: bold;
   }
 
-  .pr-title {
-    font-size: 1.5em;
-    font-weight: bold;
-    padding: 0 5px 0 5px;
+  .pull-request-number {
+    color: #AAAAAA;
+    margin: 0 1rem;
+  }
+
+  .pull-request-created {
+    font-style: italic;
+    font-size: 0.8rem;
+  }
+
+  .pull-request-last-updated {
+    background: $badge-color;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    color: #FFFFFF;
   }
 }
 
 .user-photo {
-  padding: 5px;
+  margin-right: 1rem;
+  display: flex;
+  align-items: stretch;
 
   img {
+    align-self: center;
     border-radius: 5px;
   }
 }
 
+a {
+  color: $link-color;
+  text-decoration: none;
+
+  &:hover {
+    color: lighten($link-color, 10%);
+  }
+}
+
+button {
+  background-color: $link-color;
+  padding: 0.5rem 1rem;
+  color: #FFFFFF;
+  border-radius: 5px;
+  border: 1px solid darken($link-color, 10%);
+  border-bottom-width: 3px;
+  font-size: 0.8rem;
+  transition: all 0.3s ease 0s;
+  outline: none;
+
+  &:hover {
+    $background: lighten($link-color, 10%);
+    cursor: pointer;
+    background-color: $background;
+    border-color: darken($background, 10%);
+  }
+
+  &:active {
+    $background: lighten($link-color, 20%);
+    outline: none;
+    background-color: $background;
+    border-color: darken($background, 10%);
+  }
+}
+
+.error-message {
+  background-color: $error-color;
+  border-radius: 5px;
+  color: #FFFFFF;
+  display: flex;
+  padding: 0.8rem;
+  margin: 1rem;
+
+  .error-message-details {
+    font-size: 0.8rem;
+  }
+
+  .warning-symbol {
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+}

@@ -9,8 +9,8 @@ export default class PullRequest extends React.Component {
     return moment(date).fromNow();
   }
 
-  formatTime(date) {
-    return `Last updated ${moment(date).format('MMMM Do YYYY, h:mm:ss a')}`;
+  formatTime(header, date) {
+    return `${header} ${moment(date).format('MMMM Do YYYY, h:mm:ss a')}`;
   }
 
   renderComments() {
@@ -21,39 +21,37 @@ export default class PullRequest extends React.Component {
     }
 
     return (
-      <div className="pr-comment-count">
-        <span className="glyphicon glyphicon-comment"></span>{comments}
-      </div>
+      <span className="pr-comment-count" title={`${comments} comments`}>
+        <i className="fa fa-comment"></i> {comments}
+      </span>
     );
   }
 
   render() {
     const pr = this.props.pullRequest;
     return (
-      <div className="pull-request panel panel-default">
-        <div className="panel-body">
-          <UserPhoto size={50} user={pr.user} />
-          <div className="pr-main">
-            <div className="pr-title">
-              <a target="_blank" href={pr.html_url}>{pr.title}</a>
-            </div>
-            <div className="pr-info">
-              <div className="pr-repo-name">
-                <a target="_blank" href={pr.base.repo.html_url}>
-                  {pr.base.repo.full_name}
-                </a>
-              </div>
-              <div>
-                #{pr.number}
-              </div>
-              {this.renderComments()}
-            </div>
+      <div className="pull-request">
+        <UserPhoto size={50} user={pr.user} />
+        <div className="pull-request-info">
+          <div className="pull-request-title">
+            <a target="_blank" href={pr.html_url}>{pr.title}</a>
           </div>
-          <div className="pr-last-updated">
-            <span className="label label-primary" title={this.formatTime(pr.updated_at)}>
-              {this.formatRelativeTime(pr.updated_at)}
-            </span>
+          <div>
+            <a target="_blank" href={pr.base.repo.html_url}>
+              {pr.base.repo.full_name}
+            </a>
+            <span className="pull-request-number">#{pr.number}</span>
+            {this.renderComments()}
           </div>
+          <div className="pull-request-created" title={this.formatTime('Created', pr.created_at)}>
+            Created {this.formatRelativeTime(pr.created_at)}
+          </div>
+        </div>
+        <div
+          className="pull-request-last-updated"
+          title={this.formatTime('Last updated', pr.updated_at)}
+        >
+          {this.formatRelativeTime(pr.updated_at)}
         </div>
       </div>
     );

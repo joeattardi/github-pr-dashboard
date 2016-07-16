@@ -7,7 +7,6 @@ import { loadPullRequests } from './actions';
 import config from '../config/config.json';
 import configureStore from './store';
 
-import 'bootstrap-loader';
 import '../css/main.scss';
 
 config.repos = config.repos.sort();

@@ -1,14 +1,15 @@
 import React from 'react';
 
-export default function ErrorMessage(props) {
+export default function ErrorMessage({ message }) {
   return (
-    <div className="alert alert-danger" role="alert">
-      <span className="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-      {props.message}
+    <div className="error-message">
+      <div className="warning-symbol"><i className="fa fa-2x fa-warning"></i></div>
+      <div>{message}</div>
     </div>
   );
 }
 
 ErrorMessage.propTypes = {
-  message: React.PropTypes.string.isRequired
+  message: React.PropTypes.string.isRequired,
+  details: React.PropTypes.string
 };
