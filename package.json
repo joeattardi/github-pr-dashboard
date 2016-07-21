@@ -1,6 +1,6 @@
 {
   "name": "github-pr-dashboard",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "See open PRs across repos in GitHub",
   "main": "index.js",
   "repository": "joeattardi/github-pr-dashboard",
@@ -44,9 +44,8 @@
     "webpack-dev-server": "^1.14.1"
   },
   "dependencies": {
-    "Base64": "^1.0.0",
+    "axios": "^0.13.1",
     "bluebird": "^3.4.0",
-    "jquery": "^3.0.0",
     "lodash": "^4.13.1",
     "moment": "^2.13.0",
     "react": "^15.1.0",

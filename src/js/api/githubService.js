@@ -1,6 +1,5 @@
-import $ from 'jquery';
+import axios from 'axios';
 import Promise from 'bluebird';
-import Base64 from 'Base64';
 import config from '../../config/config.json';
 
 const pullRequestData = {
@@ -8,19 +7,11 @@ const pullRequestData = {
   failedRepos: []
 };
 
-function getBasicAuth() {
-  const auth = `${config.username}:${config.password}`;
-  const hash = Base64.btoa(auth);
-  return `Basic ${hash}`;
-}
-
 function apiCall(url) {
-  return $.get({
-    url,
-    beforeSend: xhr => {
-      if (config.username && config.password) {
-        xhr.setRequestHeader('Authorization', getBasicAuth());
-      }
+  return axios.get(url, {
+    auth: {
+      username: config.username,
+      password: config.password
     }
   });
 }
@@ -50,7 +41,7 @@ export function getAllPullRequests(repoNames) {
 
     results.forEach(result => {
       if (result.isFulfilled()) {
-        pullRequests = pullRequests.concat(result.value());
+        pullRequests = pullRequests.concat(result.value().data);
       }
     });
 
