@@ -52,7 +52,7 @@ export function loadPullRequestDetails(owner, repo, number) {
     getPullRequestDetails(owner, repo, number)
       .then(pullRequestData => {
         console.log('pr data', pullRequestData);
-        dispatch(updatePullRequest(pullRequestData.pullRequest, pullRequestData.comments));
+        dispatch(updatePullRequest(pullRequestData));
       });
 }
 

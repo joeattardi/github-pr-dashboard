@@ -16,24 +16,25 @@ function apiCall(url) {
   });
 }
 
-export function loadPullRequest(owner, repo, number) {
+function loadPullRequest(owner, repo, number) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}`;
   return apiCall(url);
 }
 
+function loadPullRequestComments(owner, repo, number) {
+  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/issues/${number}/comments`;
+  return apiCall(url);
+}
+
 export function getPullRequestDetails(owner, repo, number) {
-  const baseUrl = `${config.apiBaseUrl}/repos/${owner}/${repo}`;
-  const pullRequestUrl = `${baseUrl}/pulls/${number}`;
-  const commentsUrl = `${baseUrl}/issues/${number}`;
   return Promise.all([
-    apiCall(pullRequestUrl),
-    apiCall(commentsUrl)
+    loadPullRequest(owner, repo, number),
+    loadPullRequestComments(owner, repo, number)
   ]).then(results => {
-    console.log('results', results);
-    return {
-      pullRequest: results[0].data,
-      comments: results[1].data
-    };
+    const [pullRequest, comments] = results;
+    return Object.assign(pullRequest.data, {
+      computedComments: comments.data
+    });
   });
 }
 
@@ -61,9 +62,21 @@ export function getAllPullRequests(repoNames) {
       }
     });
 
-    pullRequestData.pullRequests = pullRequests.sort((a, b) =>
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    pullRequests.sort((a, b) =>
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
-    return pullRequestData;
+    return Promise.map(pullRequests, pullRequest => {
+      const [owner, repo] = pullRequest.base.repo.full_name.split('/');
+      return loadPullRequestComments(owner, repo, pullRequest.number);
+    }).then(comments => {
+      pullRequestData.pullRequests = pullRequests.map((pullRequest, index) => {
+        const newPullRequest = Object.assign(pullRequest, {
+          computedComments: comments[index].data
+        });
+        return newPullRequest;
+      });
+      console.log('pullRequestData', pullRequestData);
+      return pullRequestData;
+    });
   });
 }
