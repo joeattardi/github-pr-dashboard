@@ -21,6 +21,22 @@ export function loadPullRequest(owner, repo, number) {
   return apiCall(url);
 }
 
+export function getPullRequestDetails(owner, repo, number) {
+  const baseUrl = `${config.apiBaseUrl}/repos/${owner}/${repo}`;
+  const pullRequestUrl = `${baseUrl}/pulls/${number}`;
+  const commentsUrl = `${baseUrl}/issues/${number}`;
+  return Promise.all([
+    apiCall(pullRequestUrl),
+    apiCall(commentsUrl)
+  ]).then(results => {
+    console.log('results', results);
+    return {
+      pullRequest: results[0].data,
+      comments: results[1].data
+    };
+  });
+}
+
 function loadPullRequests(owner, repo) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls`;
   const promise = apiCall(url);
@@ -51,4 +67,3 @@ export function getAllPullRequests(repoNames) {
     return pullRequestData;
   });
 }
-

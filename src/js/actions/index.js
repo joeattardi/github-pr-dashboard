@@ -1,4 +1,4 @@
-import { getAllPullRequests, loadPullRequest } from '../api/githubService';
+import { getAllPullRequests, getPullRequestDetails } from '../api/githubService';
 
 import config from '../../config/config.json';
 
@@ -32,10 +32,11 @@ export function addFailedRepos(failedRepos) {
   };
 }
 
-export function updatePullRequest(pullRequest) {
+export function updatePullRequest(pullRequest, comments) {
   return {
     type: ActionTypes.UPDATE_PULL_REQUEST,
-    pullRequest
+    pullRequest,
+    comments
   };
 }
 
@@ -48,9 +49,10 @@ export function addFailedRepo(failedRepo) {
 
 export function loadPullRequestDetails(owner, repo, number) {
   return dispatch =>
-    loadPullRequest(owner, repo, number)
+    getPullRequestDetails(owner, repo, number)
       .then(pullRequestData => {
-        dispatch(updatePullRequest(pullRequestData.data));
+        console.log('pr data', pullRequestData);
+        dispatch(updatePullRequest(pullRequestData.pullRequest, pullRequestData.comments));
       });
 }
 
@@ -76,4 +78,3 @@ export function refresh() {
     type: ActionTypes.REFRESH
   };
 }
-
