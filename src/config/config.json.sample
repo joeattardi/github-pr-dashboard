@@ -1,6 +1,15 @@
 {
-  "apiBaseUrl": "https://api.github.com", 
+  "apiBaseUrl": "https://api.github.com",
   "repos": [
 
-  ]
+  ],
+  "comments": {
+    "positive": [
+      "thumbsup",
+      "+1"
+    ],
+    "negative": [
+      "thumbsdown"
+    ]
+  }
 }

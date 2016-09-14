@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-
+import config from '../../config/config.json';
 import UserPhoto from './UserPhoto';
 
 export default class PullRequest extends React.Component {
@@ -14,16 +14,57 @@ export default class PullRequest extends React.Component {
   }
 
   renderComments() {
-    const comments = this.props.pullRequest.comments;
+    const count = this.props.pullRequest.comments;
+    const comments = this.props.pullRequest.computedComments;
 
-    if (typeof comments === 'undefined') {
+    if (typeof comments === 'undefined' || typeof count === 'undefined') {
       return <div></div>;
     }
 
     return (
-      <span className="pr-comment-count" title={`${comments} comments`}>
+      <div className="pr-comments">
+        {this.renderCommentCount(count)}
+        {this.renderPositiveComments(comments)}
+        {this.renderNegativeComments(comments)}
+      </div>
+    );
+  }
+
+  renderCommentCount(comments) {
+    return (
+      <div className="pr-comment-count" title={`${comments} comments`}>
         <i className="fa fa-comment"></i> {comments}
-      </span>
+      </div>
+    );
+  }
+
+  renderPositiveComments(comments) {
+    const positiveComments = comments.filter(comment => {
+      let result = false;
+      config.comments.positive.forEach(type => {
+        if (comment.body.indexOf(type) > -1) result = true;
+      });
+      return result;
+    });
+    return (
+      <div className="pr-comment-positive" title={`${positiveComments.length} positive comments`}>
+        <i className="fa fa-thumbs-up"></i> {positiveComments.length}
+      </div>
+    );
+  }
+
+  renderNegativeComments(comments) {
+    const negativeComments = comments.filter(comment => {
+      let result = false;
+      config.comments.negative.forEach(type => {
+        if (comment.body.indexOf(type) > -1) result = true;
+      });
+      return result;
+    });
+    return (
+      <div className="pr-comment-negative" title={`${negativeComments.length} negative comments`}>
+        <i className="fa fa-thumbs-down"></i> {negativeComments.length}
+      </div>
     );
   }
 

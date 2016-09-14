@@ -32,11 +32,10 @@ export function addFailedRepos(failedRepos) {
   };
 }
 
-export function updatePullRequest(pullRequest, comments) {
+export function updatePullRequest(pullRequest) {
   return {
     type: ActionTypes.UPDATE_PULL_REQUEST,
-    pullRequest,
-    comments
+    pullRequest
   };
 }
 

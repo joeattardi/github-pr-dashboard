@@ -15,7 +15,7 @@ body {
   bottom: 0;
   background-color: rgba(255, 255, 255, 0.6);;
   z-index: 100;
-  
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -76,6 +76,31 @@ footer {
     border-radius: 5px;
     padding: 0.5rem 1rem;
     color: #FFFFFF;
+  }
+
+  .pr-comments {
+    display: inline-block;
+
+    div {
+      display: inline-block;
+      margin-right: 1rem;
+    }
+
+    .pr-comment-count {
+
+    }
+
+    .pr-comment-positive {
+      i {
+        // color: green;
+      }
+    }
+
+    .pr-comment-negative {
+      i {
+        // color: red;
+      }
+    }
   }
 }
 
