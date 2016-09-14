@@ -1,7 +1,8 @@
 import React from 'react';
 import moment from 'moment';
-import config from '../../config/config.json';
+
 import UserPhoto from './UserPhoto';
+import Comments from './Comments';
 
 export default class PullRequest extends React.Component {
 
@@ -11,61 +12,6 @@ export default class PullRequest extends React.Component {
 
   formatTime(header, date) {
     return `${header} ${moment(date).format('MMMM Do YYYY, h:mm:ss a')}`;
-  }
-
-  renderComments() {
-    const count = this.props.pullRequest.comments;
-    const comments = this.props.pullRequest.computedComments;
-
-    if (typeof comments === 'undefined' || typeof count === 'undefined') {
-      return <div></div>;
-    }
-
-    return (
-      <div className="pr-comments">
-        {this.renderCommentCount(count)}
-        {this.renderPositiveComments(comments)}
-        {this.renderNegativeComments(comments)}
-      </div>
-    );
-  }
-
-  renderCommentCount(comments) {
-    return (
-      <div className="pr-comment-count" title={`${comments} comments`}>
-        <i className="fa fa-comment"></i> {comments}
-      </div>
-    );
-  }
-
-  renderPositiveComments(comments) {
-    const positiveComments = comments.filter(comment => {
-      let result = false;
-      config.comments.positive.forEach(type => {
-        if (comment.body.indexOf(type) > -1) result = true;
-      });
-      return result;
-    });
-    return (
-      <div className="pr-comment-positive" title={`${positiveComments.length} positive comments`}>
-        <i className="fa fa-thumbs-up"></i> {positiveComments.length}
-      </div>
-    );
-  }
-
-  renderNegativeComments(comments) {
-    const negativeComments = comments.filter(comment => {
-      let result = false;
-      config.comments.negative.forEach(type => {
-        if (comment.body.indexOf(type) > -1) result = true;
-      });
-      return result;
-    });
-    return (
-      <div className="pr-comment-negative" title={`${negativeComments.length} negative comments`}>
-        <i className="fa fa-thumbs-down"></i> {negativeComments.length}
-      </div>
-    );
   }
 
   render() {
@@ -82,7 +28,7 @@ export default class PullRequest extends React.Component {
               {pr.base.repo.full_name}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
-            {this.renderComments()}
+            <Comments comments={pr.comments} computedComments={pr.computedComments} />
           </div>
           <div className="pull-request-created" title={this.formatTime('Created', pr.created_at)}>
             Created {this.formatRelativeTime(pr.created_at)}
