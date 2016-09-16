@@ -75,7 +75,6 @@ export function getAllPullRequests(repoNames) {
         });
         return newPullRequest;
       });
-      console.log('pullRequestData', pullRequestData);
       return pullRequestData;
     });
   });

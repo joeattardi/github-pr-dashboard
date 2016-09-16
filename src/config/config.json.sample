@@ -5,11 +5,12 @@
   ],
   "comments": {
     "positive": [
-      "thumbsup",
-      "+1"
+      ":+1:",
+      ":thumbsup:"
     ],
     "negative": [
-      "thumbsdown"
+      ":-1:",
+      ":thumbsdown:"
     ]
   }
 }

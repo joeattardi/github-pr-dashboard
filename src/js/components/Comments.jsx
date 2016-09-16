@@ -1,5 +1,27 @@
 import React from 'react';
 import config from '../../config/config.json';
+import emoji from 'emojione';
+
+function filterComments(comments, whitelist) {
+  return comments.filter(comment => {
+    let result = false;
+    whitelist.forEach(entry => {
+      let entryName = entry;
+      let entryEmoji = entry;
+      if (entry.charAt(0) === ':') {
+        entryName = entry.replace(':', '');
+        entryEmoji = emoji.shortnameToUnicode(entry);
+      }
+      // Check for both the emoji and shortname because old GitHub Enterprise
+      // returns the shortcodes, not the emoji themselves.
+      if (comment.body.indexOf(entryName) > -1 ||
+          comment.body.indexOf(entryEmoji) > -1) {
+        result = true;
+      }
+    });
+    return result;
+  });
+}
 
 function renderCommentCount(comments) {
   return (
@@ -10,13 +32,7 @@ function renderCommentCount(comments) {
 }
 
 function renderPositiveComments(comments) {
-  const positiveComments = comments.filter(comment => {
-    let result = false;
-    config.comments.positive.forEach(type => {
-      if (comment.body.indexOf(type) > -1) result = true;
-    });
-    return result;
-  });
+  const positiveComments = filterComments(comments, config.comments.positive || []);
   return (
     <div className="pr-comment-positive" title={`${positiveComments.length} positive comments`}>
       <i className="fa fa-thumbs-up"></i> {positiveComments.length}
@@ -25,13 +41,7 @@ function renderPositiveComments(comments) {
 }
 
 function renderNegativeComments(comments) {
-  const negativeComments = comments.filter(comment => {
-    let result = false;
-    config.comments.negative.forEach(type => {
-      if (comment.body.indexOf(type) > -1) result = true;
-    });
-    return result;
-  });
+  const negativeComments = filterComments(comments, config.comments.negative || []);
   return (
     <div className="pr-comment-negative" title={`${negativeComments.length} negative comments`}>
       <i className="fa fa-thumbs-down"></i> {negativeComments.length}
@@ -43,7 +53,9 @@ export default function Comments(props) {
   const count = props.comments;
   const comments = props.computedComments;
 
-  if (typeof comments === 'undefined' || typeof count === 'undefined') {
+  if (typeof config.comments === 'undefined' ||
+      typeof comments === 'undefined' ||
+      typeof count === 'undefined') {
     return <div></div>;
   }
 
