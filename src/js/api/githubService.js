@@ -22,6 +22,11 @@ function loadPullRequest(owner, repo, number) {
 }
 
 function loadPullRequestComments(owner, repo, number) {
+  if (typeof config.comments === 'undefined') {
+    return Promise.resolve({
+      data: []
+    });
+  }
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/issues/${number}/comments`;
   return apiCall(url);
 }

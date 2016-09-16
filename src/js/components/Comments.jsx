@@ -53,12 +53,19 @@ export default function Comments(props) {
   const count = props.comments;
   const comments = props.computedComments;
 
-  if (typeof config.comments === 'undefined' ||
-      typeof comments === 'undefined' ||
-      typeof count === 'undefined') {
+  // If the comment count wasn't provided, don't render anything
+  if (typeof count === 'undefined') {
     return <div></div>;
   }
-
+  // If the comment config wasn't provided, only render the total count
+  if (typeof config.comments === 'undefined' || typeof comments === 'undefined') {
+    return (
+      <div className="pr-comments">
+        {renderCommentCount(count)}
+      </div>
+    );
+  }
+  // If all data was provided, render the positive, negative, and total counts
   return (
     <div className="pr-comments">
       {renderCommentCount(count)}
