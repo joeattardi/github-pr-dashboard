@@ -1,4 +1,4 @@
-import { getAllPullRequests, loadPullRequest } from '../api/githubService';
+import { getAllPullRequests, getPullRequestDetails } from '../api/githubService';
 
 import config from '../../config/config.json';
 
@@ -48,9 +48,9 @@ export function addFailedRepo(failedRepo) {
 
 export function loadPullRequestDetails(owner, repo, number) {
   return dispatch =>
-    loadPullRequest(owner, repo, number)
+    getPullRequestDetails(owner, repo, number)
       .then(pullRequestData => {
-        dispatch(updatePullRequest(pullRequestData.data));
+        dispatch(updatePullRequest(pullRequestData));
       });
 }
 
@@ -76,4 +76,3 @@ export function refresh() {
     type: ActionTypes.REFRESH
   };
 }
-

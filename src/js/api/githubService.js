@@ -16,9 +16,31 @@ function apiCall(url) {
   });
 }
 
-export function loadPullRequest(owner, repo, number) {
+function loadPullRequest(owner, repo, number) {
   const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/pulls/${number}`;
   return apiCall(url);
+}
+
+function loadPullRequestComments(owner, repo, number) {
+  if (typeof config.comments === 'undefined') {
+    return Promise.resolve({
+      data: []
+    });
+  }
+  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/issues/${number}/comments`;
+  return apiCall(url);
+}
+
+export function getPullRequestDetails(owner, repo, number) {
+  return Promise.all([
+    loadPullRequest(owner, repo, number),
+    loadPullRequestComments(owner, repo, number)
+  ]).then(results => {
+    const [pullRequest, comments] = results;
+    return Object.assign(pullRequest.data, {
+      computedComments: comments.data
+    });
+  });
 }
 
 function loadPullRequests(owner, repo) {
@@ -45,10 +67,20 @@ export function getAllPullRequests(repoNames) {
       }
     });
 
-    pullRequestData.pullRequests = pullRequests.sort((a, b) =>
-        new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    pullRequests.sort((a, b) =>
+      new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
-    return pullRequestData;
+    return Promise.map(pullRequests, pullRequest => {
+      const [owner, repo] = pullRequest.base.repo.full_name.split('/');
+      return loadPullRequestComments(owner, repo, pullRequest.number);
+    }).then(comments => {
+      pullRequestData.pullRequests = pullRequests.map((pullRequest, index) => {
+        const newPullRequest = Object.assign(pullRequest, {
+          computedComments: comments[index].data
+        });
+        return newPullRequest;
+      });
+      return pullRequestData;
+    });
   });
 }
-
