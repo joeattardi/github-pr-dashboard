@@ -55,7 +55,7 @@ You can use the short-codes for any GitHub emoji - make 💃 (dancer) positive a
 
 ## Displaying Reaction Counts
 
-Coming eventually. Maybe you could submit a PR? That'd be cool of you!
+Should work automatically. Reactions will also count towards your postive and negative totals if using that feature. If you want to disable the reaction feature, simply add reactions: false to your config json
 
 # Building
 

@@ -28,7 +28,11 @@ export default class PullRequest extends React.Component {
               {pr.base.repo.full_name}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
-            <Comments comments={pr.comments} computedComments={pr.computedComments} />
+            <Comments
+              comments={pr.comments}
+              computedComments={pr.computedComments}
+              computedReactions={pr.computedReactions}
+            />
           </div>
           <div className="pull-request-created" title={this.formatTime('Created', pr.created_at)}>
             Created {this.formatRelativeTime(pr.created_at)}
