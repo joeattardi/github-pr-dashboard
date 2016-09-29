@@ -7,13 +7,15 @@ const pullRequestData = {
   failedRepos: []
 };
 
-function apiCall(url) {
-  return axios.get(url, {
-    auth: {
+function apiCall(url, headers = {}) {
+  const options = { headers };
+  if (config.username) {
+    options.auth = {
       username: config.username,
       password: config.password
-    }
-  });
+    };
+  }
+  return axios.get(url, options);
 }
 
 function loadPullRequest(owner, repo, number) {
@@ -31,14 +33,26 @@ function loadPullRequestComments(owner, repo, number) {
   return apiCall(url);
 }
 
+function loadPullRequestReactions(owner, repo, number) {
+  if (config.reactions === false) {
+    return Promise.resolve({
+      data: []
+    });
+  }
+  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/issues/${number}/reactions`;
+  return apiCall(url, { Accept: 'application/vnd.github.squirrel-girl-preview' });
+}
+
 export function getPullRequestDetails(owner, repo, number) {
   return Promise.all([
     loadPullRequest(owner, repo, number),
-    loadPullRequestComments(owner, repo, number)
+    loadPullRequestComments(owner, repo, number),
+    loadPullRequestReactions(owner, repo, number)
   ]).then(results => {
-    const [pullRequest, comments] = results;
+    const [pullRequest, comments, reactions] = results;
     return Object.assign(pullRequest.data, {
-      computedComments: comments.data
+      computedComments: comments.data,
+      computedReactions: reactions.data
     });
   });
 }
@@ -70,17 +84,7 @@ export function getAllPullRequests(repoNames) {
     pullRequests.sort((a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
 
-    return Promise.map(pullRequests, pullRequest => {
-      const [owner, repo] = pullRequest.base.repo.full_name.split('/');
-      return loadPullRequestComments(owner, repo, pullRequest.number);
-    }).then(comments => {
-      pullRequestData.pullRequests = pullRequests.map((pullRequest, index) => {
-        const newPullRequest = Object.assign(pullRequest, {
-          computedComments: comments[index].data
-        });
-        return newPullRequest;
-      });
-      return pullRequestData;
-    });
+    pullRequestData.pullRequests = pullRequests;
+    return pullRequestData;
   });
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import config from '../../config/config.json';
 import emoji from 'emojione';
+import _ from 'lodash';
 
 function filterComments(comments, whitelist) {
   return comments.filter(comment => {
@@ -20,7 +21,29 @@ function filterComments(comments, whitelist) {
       }
     });
     return result;
-  });
+  }).map(comment => comment.user.login);
+}
+
+function filterReactions(reactions, whitelist) {
+  return reactions.filter(reaction =>
+    whitelist.indexOf(`:${reaction.content}:`) > -1
+  ).map(reaction => reaction.user.login);
+}
+
+function translateReaction(reaction) {
+  const translationMap = {
+    '+1': 'thumbsup',
+    '-1': 'thumbsdown',
+    laugh: 'laughing',
+    hooray: 'tada'
+  };
+  return translationMap[reaction] || reaction;
+}
+
+function getPosNegCount(comments, reactions, whitelist) {
+  const commentUsers = filterComments(comments, whitelist);
+  const reactionUsers = filterReactions(reactions, whitelist);
+  return _.union(commentUsers, reactionUsers).length;
 }
 
 function renderCommentCount(comments) {
@@ -31,37 +54,66 @@ function renderCommentCount(comments) {
   );
 }
 
-function renderPositiveComments(comments) {
-  const positiveComments = filterComments(comments, config.comments.positive || []);
+function renderPositiveComments(comments, reactions) {
+  if (typeof config.comments.negative === 'undefined') return '';
+  const positiveCount = getPosNegCount(comments, reactions, config.comments.positive || []);
   return (
-    <div className="pr-comment-positive" title={`${positiveComments.length} positive comments`}>
-      <i className="fa fa-thumbs-up"></i> {positiveComments.length}
+    <div className="pr-comment-positive" title={`${positiveCount} positive comments`}>
+      <i className="fa fa-thumbs-up"></i> {positiveCount}
     </div>
   );
 }
 
-function renderNegativeComments(comments) {
-  const negativeComments = filterComments(comments, config.comments.negative || []);
+function renderNegativeComments(comments, reactions) {
+  if (typeof config.comments.negative === 'undefined') return '';
+  const negativeCount = getPosNegCount(comments, reactions, config.comments.negative || []);
   return (
-    <div className="pr-comment-negative" title={`${negativeComments.length} negative comments`}>
-      <i className="fa fa-thumbs-down"></i> {negativeComments.length}
+    <div className="pr-comment-negative" title={`${negativeCount} negative comments`}>
+      <i className="fa fa-thumbs-down"></i> {negativeCount}
     </div>
+  );
+}
+
+function renderOtherReactions(reactions) {
+  if (!!config.reactions) return <div />;
+  const reactionCounts = {};
+  const positive = config.comments.positive || [];
+  const negative = config.comments.negative || [];
+  const alreadyDoneList = positive.concat(negative);
+
+  reactions.forEach(reaction => {
+    const name = reaction.content;
+    if (alreadyDoneList.indexOf(`:${name}:`) > -1) return;
+    if (!reactionCounts[name]) reactionCounts[name] = 0;
+    reactionCounts[name] += 1;
+  });
+
+  return _.map(reactionCounts, (count, reaction) => (
+    <div className="pr-reaction" title={`${count} ${reaction} reactions`} key={reaction}>
+      {emoji.shortnameToUnicode(`:${translateReaction(reaction)}:`)} {count}
+    </div>
+    )
   );
 }
 
 export default function Comments(props) {
   const count = props.comments;
   const comments = props.computedComments;
+  const reactions = props.computedReactions;
+
+  if (typeof config.comments === 'undefined') config.comments = {};
 
   // If the comment count wasn't provided, don't render anything
   if (typeof count === 'undefined') {
     return <div></div>;
   }
   // If the comment config wasn't provided, only render the total count
-  if (typeof config.comments === 'undefined' || typeof comments === 'undefined') {
+  if (typeof comments === 'undefined') {
+    // Set a default value so reactions process ok
     return (
       <div className="pr-comments">
         {renderCommentCount(count)}
+        {renderOtherReactions(reactions)}
       </div>
     );
   }
@@ -69,13 +121,15 @@ export default function Comments(props) {
   return (
     <div className="pr-comments">
       {renderCommentCount(count)}
-      {renderPositiveComments(comments)}
-      {renderNegativeComments(comments)}
+      {renderPositiveComments(comments, reactions)}
+      {renderNegativeComments(comments, reactions)}
+      {renderOtherReactions(reactions)}
     </div>
   );
 }
 
 Comments.propTypes = {
   comments: React.PropTypes.number,
-  computedComments: React.PropTypes.array
+  computedComments: React.PropTypes.array,
+  computedReactions: React.PropTypes.array
 };
