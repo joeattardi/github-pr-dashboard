@@ -47,7 +47,7 @@ class Main extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>Open Pull Requests</h1>
+        <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
         <Toolbar onRefresh={this.loadPullRequestData} />
         {this.renderBody()}
         <Footer />
