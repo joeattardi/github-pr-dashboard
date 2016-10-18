@@ -19,7 +19,11 @@ export default class AutoRefreshControl extends React.Component {
     const autoRefreshEnabled = JSON.parse(localStorage.getItem(AUTO_REFRESH_ENABLED));
     const autoRefreshInterval = JSON.parse(localStorage.getItem(AUTO_REFRESH_TIME));
 
-    this.refs.autoRefreshTime.value = autoRefreshInterval;
+
+    if (autoRefreshInterval) {
+      this.refs.autoRefreshTime.value = autoRefreshInterval;
+    }
+
     this.refs.autoRefreshCheckbox.checked = autoRefreshEnabled;
 
     this.toggleAutoRefresh();
