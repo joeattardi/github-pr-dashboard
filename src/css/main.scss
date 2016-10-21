@@ -53,6 +53,40 @@ footer {
   margin: 0.5rem;
   padding: 0.5rem;
 
+  &.pull-request--mergeable {
+    background: #90C695;
+    border-left: 36px solid #509655;
+
+    &:before {
+      color: #FFFFFF;
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      text-decoration: inherit;
+      position: absolute;
+      margin-left: -34px;
+      content: "\f00c";
+    }
+  }
+
+  &.pull-request--unmergeable {
+    background: #D24D57;
+    border-left: 36px solid #A20D17;
+
+    &:before {
+      color: #FFFFFF;
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      text-decoration: inherit;
+      position: absolute;
+      margin-left: -34px;
+      content: "\f071";
+    }
+  }
+
   .pull-request-info {
     flex-grow: 1;
   }

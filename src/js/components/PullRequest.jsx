@@ -1,8 +1,28 @@
 import React from 'react';
 import moment from 'moment';
 
+import config from '../../config/config.json';
 import UserPhoto from './UserPhoto';
-import Comments from './Comments';
+import { hasMergeRules, isMergeable, Comments } from './Comments';
+
+const baseClassName = 'pull-request';
+const unmergeable = `${baseClassName} ${baseClassName}--unmergeable`;
+const mergeable = `${baseClassName} ${baseClassName}--mergeable`;
+const neverMerge = hasMergeRules() && new RegExp(config.mergeRule.neverRegexp, 'i');
+
+function isUnmergeable(pr) {
+  return neverMerge && neverMerge.test(pr.title);
+}
+
+function getPrClassName(pr) {
+  if (isUnmergeable(pr)) {
+    return unmergeable;
+  }
+  if (isMergeable(pr.computedComments, pr.computedReactions)) {
+    return mergeable;
+  }
+  return baseClassName;
+}
 
 export default class PullRequest extends React.Component {
 
@@ -16,8 +36,10 @@ export default class PullRequest extends React.Component {
 
   render() {
     const pr = this.props.pullRequest;
+    const className = getPrClassName(pr);
+
     return (
-      <div className="pull-request">
+      <div className={className}>
         <UserPhoto size={50} user={pr.user} />
         <div className="pull-request-info">
           <div className="pull-request-title">

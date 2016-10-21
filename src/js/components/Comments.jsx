@@ -46,6 +46,18 @@ function getPosNegCount(comments, reactions, whitelist) {
   return _.union(commentUsers, reactionUsers).length;
 }
 
+export function hasMergeRules() {
+  const mR = config.mergeRule;
+  return mR && _.isNumber(mR.negative) && _.isNumber(mR.positive) && _.isString(mR.neverRegexp);
+}
+
+export function isMergeable(comments, reactions) {
+  if (!hasMergeRules() || !comments) { return false; }
+  const pos = getPosNegCount(comments, reactions, config.comments.positive);
+  const neg = getPosNegCount(comments, reactions, config.comments.negative);
+  return neg <= config.mergeRule.negative && pos >= config.mergeRule.positive;
+}
+
 function renderCommentCount(comments) {
   return (
     <div className="pr-comment-count" title={`${comments} comments`}>
@@ -96,7 +108,7 @@ function renderOtherReactions(reactions) {
   );
 }
 
-export default function Comments(props) {
+export function Comments(props) {
   const count = props.comments;
   const comments = props.computedComments;
   const reactions = props.computedReactions;
@@ -107,6 +119,7 @@ export default function Comments(props) {
   if (typeof count === 'undefined') {
     return <div></div>;
   }
+
   // If the comment config wasn't provided, only render the total count
   if (typeof comments === 'undefined') {
     // Set a default value so reactions process ok
@@ -117,6 +130,7 @@ export default function Comments(props) {
       </div>
     );
   }
+
   // If all data was provided, render the positive, negative, and total counts
   return (
     <div className="pr-comments">
