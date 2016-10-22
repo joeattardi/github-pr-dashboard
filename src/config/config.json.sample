@@ -12,5 +12,10 @@
       ":-1:",
       ":thumbsdown:"
     ]
+  },
+  "mergeRule": {
+    "positive": 2,
+    "negative": 0,
+    "neverRegexp": "DO NOT MERGE"
   }
 }
