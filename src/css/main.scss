@@ -118,7 +118,18 @@ footer {
 
   .pr-status {
     display: inline-block;
-    margin-right: 1rem;
+    margin-right: 1rem;    // Maintain spacing with the comments to the right
+    margin-left: -0.75rem; // Nudge this closer to the PR number
+
+    .success {
+      color: $status-success;
+    }
+    .pending {
+      color: $status-pending;
+    }
+    .failure {
+      color: $status-failure;
+    }
   }
 
   .pr-comments {
@@ -209,19 +220,5 @@ button {
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
-  }
-}
-
-.pr-status {
-  margin-left: -0.75rem;
-
-  .success {
-    color: $status-success;
-  }
-  .pending {
-    color: $status-pending;
-  }
-  .failure {
-    color: $status-failure;
   }
 }
