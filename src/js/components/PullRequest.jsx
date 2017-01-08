@@ -4,6 +4,7 @@ import moment from 'moment';
 import config from '../../config/config.json';
 import UserPhoto from './UserPhoto';
 import { hasMergeRules, isMergeable, Comments } from './Comments';
+import { Status } from './Status';
 
 const baseClassName = 'pull-request';
 const unmergeable = `${baseClassName} ${baseClassName}--unmergeable`;
@@ -50,6 +51,9 @@ export default class PullRequest extends React.Component {
               {pr.base.repo.full_name}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
+            <Status
+              status={pr.status}
+            />
             <Comments
               comments={pr.comments}
               computedComments={pr.computedComments}

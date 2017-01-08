@@ -23,13 +23,12 @@ function loadPullRequest(owner, repo, number) {
   return apiCall(url);
 }
 
-function loadPullRequestComments(owner, repo, number) {
+function loadPullRequestComments(url) {
   if (typeof config.comments === 'undefined') {
     return Promise.resolve({
       data: []
     });
   }
-  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/issues/${number}/comments`;
   return apiCall(url);
 }
 
@@ -43,17 +42,25 @@ function loadPullRequestReactions(owner, repo, number) {
   return apiCall(url, { Accept: 'application/vnd.github.squirrel-girl-preview' });
 }
 
+function loadCommitStatus(owner, repo, sha) {
+  const url = `${config.apiBaseUrl}/repos/${owner}/${repo}/commits/${sha}/status`;
+  return apiCall(url);
+}
+
 export function getPullRequestDetails(owner, repo, number) {
-  return Promise.all([
-    loadPullRequest(owner, repo, number),
-    loadPullRequestComments(owner, repo, number),
-    loadPullRequestReactions(owner, repo, number)
-  ]).then(results => {
-    const [pullRequest, comments, reactions] = results;
-    return Object.assign(pullRequest.data, {
-      computedComments: comments.data,
-      computedReactions: reactions.data
-    });
+  return loadPullRequest(owner, repo, number).then(pullRequest => {
+    const { _links, head } = pullRequest.data;
+    return Promise.all([
+      loadPullRequestComments(_links.comments.href),
+      loadPullRequestReactions(owner, repo, number),
+      loadCommitStatus(owner, repo, head.sha)
+    ]).then(([comments, reactions, status]) =>
+      Object.assign(pullRequest.data, {
+        computedComments: comments.data,
+        computedReactions: reactions.data,
+        status: status.data
+      })
+    );
   });
 }
 

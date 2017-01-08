@@ -2,6 +2,10 @@ $link-color: #02779E;
 $badge-color: #354250;
 $error-color: #C34444;
 
+$status-failure: #E63434;
+$status-pending: #F0C44F;
+$status-success: #4AD964;
+
 body {
   background-color: #EEEEEE;
   font-family: 'Open Sans', sans-serif;
@@ -112,6 +116,11 @@ footer {
     color: #FFFFFF;
   }
 
+  .pr-status {
+    display: inline-block;
+    margin-right: 1rem;
+  }
+
   .pr-comments {
     display: inline-block;
 
@@ -200,5 +209,19 @@ button {
     margin-right: 0.5rem;
     display: flex;
     align-items: center;
+  }
+}
+
+.pr-status {
+  margin-left: -0.75rem;
+
+  .success {
+    color: $status-success;
+  }
+  .pending {
+    color: $status-pending;
+  }
+  .failure {
+    color: $status-failure;
   }
 }
