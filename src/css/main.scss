@@ -1,10 +1,8 @@
 $link-color: #02779E;
 $badge-color: #354250;
 $error-color: #C34444;
-
-$status-failure: #E63434;
-$status-pending: #F0C44F;
-$status-success: #4AD964;
+$warning-color: #DFBA57;
+$success-color: #4AD964;
 
 body {
   background-color: #EEEEEE;
@@ -122,13 +120,13 @@ footer {
     margin-left: -0.75rem; // Nudge this closer to the PR number
 
     .success {
-      color: $status-success;
+      color: $success-color;
     }
     .pending {
-      color: $status-pending;
+      color: $warning-color;
     }
     .failure {
-      color: $status-failure;
+      color: $error-color;
     }
   }
 
