@@ -1,6 +1,8 @@
 $link-color: #02779E;
 $badge-color: #354250;
 $error-color: #C34444;
+$warning-color: #DFBA57;
+$success-color: #4AD964;
 
 body {
   background-color: #EEEEEE;
@@ -110,6 +112,22 @@ footer {
     border-radius: 5px;
     padding: 0.5rem 1rem;
     color: #FFFFFF;
+  }
+
+  .pr-status {
+    display: inline-block;
+    margin-right: 1rem;    // Maintain spacing with the comments to the right
+    margin-left: -0.75rem; // Nudge this closer to the PR number
+
+    .success {
+      color: $success-color;
+    }
+    .pending {
+      color: $warning-color;
+    }
+    .failure {
+      color: $error-color;
+    }
   }
 
   .pr-comments {
