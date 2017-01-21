@@ -59,6 +59,19 @@ Should work automatically. Reactions will also count towards your postive and ne
 
 # Local Environment
 
+## Setup 
+
+Use the `config.json.sample` file to create a new file called `config.json` with the configuration and options to run this application. 
+
+### Setup parameters
+ 
+ * "apiBaseUrl" : String ( default value : https://api.github.com ) - Base Rest Api which will be used
+ * "username": Account username to login
+ * "password": Account password to login
+ * "groupByRepo":  Use this option with true value for group the results by repository ( true | false )
+ * "repos": Repositories that the application should fetch the requests
+ * "comments": Displaying 👍 and 👎 Comment Counts
+
 ## Building
 
 After you have configured the dashboard, run `webpack` to build the app. The result will be in the `dist` directory, which you can then copy into your web server to serve it from.
