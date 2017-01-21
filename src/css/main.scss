@@ -3,6 +3,7 @@ $badge-color: #354250;
 $error-color: #C34444;
 $warning-color: #DFBA57;
 $success-color: #4AD964;
+$repo-link-color: #bbdde1;
 
 body {
   background-color: #EEEEEE;
@@ -203,15 +204,20 @@ button {
 }
 
 .error-message {
-  background-color: $error-color;
+  align-items: center;
+  background-color: #FEFEFE;
+  border: 1px solid #CCCCCC;
   border-radius: 5px;
-  color: #FFFFFF;
-  display: flex;
-  padding: 0.8rem;
-  margin: 1rem;
+  margin: 0.5rem;
+  padding: 0.5rem;
 
   .error-message-details {
-    font-size: 0.8rem;
+    background: $error-color;
+    align-items: center;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: flex;
+    padding: 0.5rem 1rem;
   }
 
   .warning-symbol {
@@ -219,4 +225,56 @@ button {
     display: flex;
     align-items: center;
   }
+}
+
+.repo-indicator {
+  align-items: center;
+  background-color: #FEFEFE;
+  border: 1px solid #CCCCCC;
+  border-radius: 5px;
+  display: flex;
+  margin: 0.5rem;
+  padding: 0.5rem;
+
+  .repo-symbol {
+    margin-right: 0.5rem;
+    display: flex;
+    align-items: center;
+  }
+
+  .repo-indicator-description {
+    background: $badge-color;
+    border-radius: 5px;
+    color: #FFFFFF;
+    display: flex;
+    padding: 0.5rem 1rem;
+  }
+
+  .repo-details {
+    font-style: italic;
+    font-size: 0.8rem;
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    text-align: right;
+  }
+
+  .repo-title {
+    font-weight: bold;
+    display: inline-block;
+    margin-right: 1rem;
+    flex-grow: 1;
+    margin-top: 0.75rem;
+  }
+
+  .repo-link {
+    color: $repo-link-color;
+    text-decoration: none;
+    &:hover {
+      color: lighten($repo-link-color, 10%);
+    }
+  }
+}
+
+.container-header {
+  margin: 0.5rem;
 }
