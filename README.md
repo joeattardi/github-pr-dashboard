@@ -65,7 +65,7 @@ Use the `config.json.sample` file to create a new file called `config.json` with
 
 ### Setup parameters
  
- * "apiBaseUrl" : String ( default value : https://api.github.com ) - Base Rest Api which will be used
+ * "apiBaseUrl" : Base Rest Api which will be used
  * "username": Account username to login
  * "password": Account password to login
  * "groupByRepo":  Use this option with true value for group the results by repository ( true | false )
