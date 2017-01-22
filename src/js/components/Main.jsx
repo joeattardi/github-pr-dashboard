@@ -83,8 +83,7 @@ Main.propTypes = {
   loading: React.PropTypes.bool.isRequired,
   pullRequests: React.PropTypes.array.isRequired,
   failedRepos: React.PropTypes.array.isRequired,
-  error: React.PropTypes.string.isRequired,
-  repoSelect: React.PropTypes.string
+  error: React.PropTypes.string.isRequired
 };
 
 export default connect(state => state)(Main);
