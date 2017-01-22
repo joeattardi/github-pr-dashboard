@@ -33,7 +33,10 @@ class Main extends React.Component {
     return (
       <div>
         {this.props.failedRepos.map(failedRepo =>
-          <ErrorMessage message={`Failed to load pull request data for ${failedRepo}.`} />
+          <ErrorMessage
+            key={failedRepo}
+            message={`Failed to load pull request data for ${failedRepo}.`}
+          />
         )}
       </div>
     );
@@ -68,7 +71,7 @@ class Main extends React.Component {
         <div className="container-header">
           <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
         </div>
-        <Toolbar onRefresh={this.loadPullRequestData} />
+        <Toolbar onRefresh={this.loadPullRequestData} failedRepos={this.props.failedRepos} />
         {this.renderBody()}
         <Footer />
       </div>
