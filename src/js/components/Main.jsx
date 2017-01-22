@@ -1,20 +1,31 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
+import config from '../../config/config.json';
 import PullRequest from './PullRequest';
 import LoadingOverlay from './LoadingOverlay';
 import ErrorMessage from './ErrorMessage';
 import Toolbar from './Toolbar';
 import Footer from './Footer';
+import RepoIndicator from './RepoIndicator';
+
+let lastRepoId = null;
 
 class Main extends React.Component {
+
+  isToShow(currentId) {
+    if (config.groupByRepo && (currentId !== lastRepoId)) {
+      lastRepoId = currentId;
+      return true;
+    }
+    return false;
+  }
+
   renderLoading() {
     if (this.props.loading) {
       return (
         <LoadingOverlay />
       );
     }
-
     return <div></div>;
   }
 
@@ -37,8 +48,15 @@ class Main extends React.Component {
       <div>
         {this.renderFailedRepos()}
         {this.renderLoading()}
-        {this.props.pullRequests.map(pullRequest =>
-          <PullRequest key={pullRequest.id} pullRequest={pullRequest} />
+        {this.props.pullRequests.map(pr =>
+          <div>
+            <RepoIndicator
+              key={pr.base.repo.id}
+              pullRequest={pr}
+              show={this.isToShow(pr.base.repo.id)}
+            />
+            <PullRequest key={pr.id} pullRequest={pr} />
+          </div>
         )}
       </div>
     );
@@ -47,7 +65,9 @@ class Main extends React.Component {
   render() {
     return (
       <div className="container">
-        <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
+        <div className="container-header">
+          <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
+        </div>
         <Toolbar onRefresh={this.loadPullRequestData} />
         {this.renderBody()}
         <Footer />

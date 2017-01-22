@@ -65,7 +65,9 @@ export function loadPullRequests() {
       }).then(pullRequestData => {
         pullRequestData.pullRequests.forEach(pullRequest => {
           const repo = pullRequest.base.repo;
-          dispatch(loadPullRequestDetails(repo.owner.login, repo.name, pullRequest.number));
+          dispatch(loadPullRequestDetails(
+              repo.owner.login, repo.name, pullRequest.number
+          ));
         });
       });
   };

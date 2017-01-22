@@ -1,5 +1,8 @@
 {
   "apiBaseUrl": "https://api.github.com",
+  "username": "",
+  "password": "",
+  "groupByRepo": false,
   "repos": [
 
   ],

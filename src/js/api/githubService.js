@@ -88,8 +88,13 @@ export function getAllPullRequests(repoNames) {
       }
     });
 
-    pullRequests.sort((a, b) =>
+    if (config.groupByRepo === true) {
+      pullRequests.sort((a, b) => b.base.repo.name < a.base.repo.name
+      && new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    } else {
+      pullRequests.sort((a, b) =>
       new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+    }
 
     pullRequestData.pullRequests = pullRequests;
     return pullRequestData;
