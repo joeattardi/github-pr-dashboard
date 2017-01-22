@@ -54,10 +54,14 @@ export function loadPullRequestDetails(owner, repo, number) {
       });
 }
 
-export function loadPullRequests() {
+export function loadPullRequests(value) {
   return dispatch => {
     dispatch({ type: ActionTypes.START_LOADING });
-    return getAllPullRequests(config.repos)
+    let repos = config.repos;
+    if (value) {
+      repos = value;
+    }
+    return getAllPullRequests(repos)
       .then(pullRequestData => {
         dispatch(addPullRequests(pullRequestData.pullRequests));
         dispatch(addFailedRepos(pullRequestData.failedRepos));

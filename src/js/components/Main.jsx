@@ -33,7 +33,10 @@ class Main extends React.Component {
     return (
       <div>
         {this.props.failedRepos.map(failedRepo =>
-          <ErrorMessage message={`Failed to load pull request data for ${failedRepo}.`} />
+          <ErrorMessage
+            key={failedRepo}
+            message={`Failed to load pull request data for ${failedRepo}.`}
+          />
         )}
       </div>
     );
@@ -68,7 +71,7 @@ class Main extends React.Component {
         <div className="container-header">
           <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
         </div>
-        <Toolbar onRefresh={this.loadPullRequestData} />
+        <Toolbar onRefresh={this.loadPullRequestData} failedRepos={this.props.failedRepos} />
         {this.renderBody()}
         <Footer />
       </div>
@@ -80,7 +83,8 @@ Main.propTypes = {
   loading: React.PropTypes.bool.isRequired,
   pullRequests: React.PropTypes.array.isRequired,
   failedRepos: React.PropTypes.array.isRequired,
-  error: React.PropTypes.string.isRequired
+  error: React.PropTypes.string.isRequired,
+  repoSelect: React.PropTypes.string
 };
 
 export default connect(state => state)(Main);

@@ -13,7 +13,7 @@ config.repos = config.repos.sort();
 
 const store = configureStore();
 
-store.dispatch(loadPullRequests());
+store.dispatch(loadPullRequests(undefined));
 
 ReactDOM.render(
   <Provider store={store}>

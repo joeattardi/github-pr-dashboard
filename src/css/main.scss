@@ -278,3 +278,12 @@ button {
 .container-header {
   margin: 0.5rem;
 }
+
+.filter-repo-container {
+  flex-grow: 1;
+  text-align: right;
+
+  .btn-filter {
+    margin-left: 0.5rem;
+  }
+}
