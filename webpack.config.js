@@ -17,7 +17,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx']
   },
 
-  devtool: 'eval-source-map',
+  devtool: 'cheap-source-map',
 
   devServer: {
     contentBase: 'dist'

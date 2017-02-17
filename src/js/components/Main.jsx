@@ -52,7 +52,7 @@ class Main extends React.Component {
         {this.renderFailedRepos()}
         {this.renderLoading()}
         {this.props.pullRequests.map(pr =>
-          <div>
+          <div key={pr.id}>
             <RepoIndicator
               key={pr.base.repo.id}
               pullRequest={pr}
@@ -71,7 +71,7 @@ class Main extends React.Component {
         <div className="container-header">
           <h1>{this.props.pullRequests.length} Open Pull Requests</h1>
         </div>
-        <Toolbar onRefresh={this.loadPullRequestData} failedRepos={this.props.failedRepos} />
+        <Toolbar failedRepos={this.props.failedRepos} />
         {this.renderBody()}
         <Footer />
       </div>

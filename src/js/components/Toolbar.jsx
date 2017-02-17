@@ -38,9 +38,9 @@ function mapStateToProps() { return {}; }
 
 function mapDispatchToProps(dispatch) {
   return {
-    refresh: (value) => {
+    refresh: () => {
       dispatch(refresh());
-      dispatch(loadPullRequests(value));
+      dispatch(loadPullRequests());
     }
   };
 }
