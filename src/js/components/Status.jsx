@@ -9,18 +9,10 @@ const ICONS = {
 export function Status(props) {
   const status = props.status || {};
 
-  const { state, statuses, total_count: count } = status;
-
-  if (typeof count === 'undefined' || count === 0) {
-    return null;
-  }
-
-  const passing = statuses.filter((s) =>
-    s.state === 'success'
-  );
+  const { state, description } = status;
 
   return (
-    <div className="pr-status" title={`Status: ${state} (${passing.length}/${count} passing)`}>
+    <div className="pr-status" title={description}>
       <i className={`fa fa-${ICONS[state]} ${state}`}></i>
     </div>
   );

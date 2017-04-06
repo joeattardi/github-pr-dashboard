@@ -54,9 +54,9 @@ class Main extends React.Component {
         {this.props.pullRequests.map(pr =>
           <div key={pr.id}>
             <RepoIndicator
-              key={pr.base.repo.id}
+              key={pr.repoId}
               pullRequest={pr}
-              show={this.isToShow(pr.base.repo.id)}
+              show={this.isToShow(pr.repoId)}
             />
             <PullRequest key={pr.id} pullRequest={pr} />
           </div>

@@ -22,7 +22,7 @@ function getPrClassName(pr) {
   if (isUnmergeable(pr)) {
     return unmergeable;
   }
-  if (isMergeable(pr.computedComments, pr.computedReactions)) {
+  if (isMergeable(pr.comments, pr.reactions)) {
     return mergeable;
   }
   return baseClassName;
@@ -47,11 +47,11 @@ export default class PullRequest extends React.Component {
         <UserPhoto size={50} user={pr.user} />
         <div className="pull-request-info">
           <div className="pull-request-title">
-            <img src="images/git-pull-request.svg" /> <a target="_blank" href={pr.html_url}>{pr.title}</a>
+            <img src="images/git-pull-request.svg" /> <a target="_blank" href={pr.url}>{pr.title}</a>
           </div>
           <div>
-            <a target="_blank" href={pr.base.repo.html_url}>
-              <img src="images/repo.svg" /> {pr.base.repo.full_name}
+            <a target="_blank" href={pr.repoUrl}>
+              <img src="images/repo.svg" /> {pr.repo}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
             <Status
@@ -59,19 +59,18 @@ export default class PullRequest extends React.Component {
             />
             <Comments
               comments={pr.comments}
-              computedComments={pr.computedComments}
-              computedReactions={pr.computedReactions}
+              reactions={pr.reactions}
             />
           </div>
-          <div className="pull-request-created" title={this.formatTime('Created', pr.created_at)}>
-            Created {this.formatRelativeTime(pr.created_at)}
+          <div className="pull-request-created" title={this.formatTime('Created', pr.created)}>
+            Created {this.formatRelativeTime(pr.created)}
           </div>
         </div>
         <div
           className="pull-request-last-updated"
-          title={this.formatTime('Last updated', pr.updated_at)}
+          title={this.formatTime('Last updated', pr.updated)}
         >
-          {this.formatRelativeTime(pr.updated_at)}
+          {this.formatRelativeTime(pr.updated)}
         </div>
       </div>
     );

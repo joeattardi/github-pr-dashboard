@@ -36,16 +36,16 @@ export default class RepoIndicator extends React.Component {
             <i className="fa fa-2x fa-th"></i>
           </div>
           <div className="repo-title">
-            <a className="repo-link" target="_blank" href={pr.base.repo.html_url}>
-              {pr.base.repo.full_name}
+            <a className="repo-link" target="_blank" href={pr.repoUrl}>
+              {pr.repo}
             </a>
           </div>
           <div className="repo-details">
             <div className="repo-details-line">
-              Created: {this.formatRelativeTime(pr.base.repo.created_at)}
+              Created: {this.formatRelativeTime(pr.created_at)}
             </div>
             <div className="repo-details-line">
-              Last updated: {this.formatRelativeTime(pr.base.repo.updated_at)}
+              Last updated: {this.formatRelativeTime(pr.updated_at)}
             </div>
           </div>
         </div>

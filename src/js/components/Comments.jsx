@@ -21,7 +21,7 @@ function filterComments(comments, whitelist) {
       }
     });
     return result;
-  }).map(comment => comment.user.login);
+  }).map(comment => comment.user);
 }
 
 function filterReactions(reactions, whitelist) {
@@ -109,9 +109,9 @@ function renderOtherReactions(reactions) {
 }
 
 export function Comments(props) {
-  const count = props.comments;
-  const comments = props.computedComments;
-  const reactions = props.computedReactions;
+  const count = props.comments.length;
+  const comments = props.comments;
+  const reactions = props.reactions;
 
   if (typeof config.comments === 'undefined') config.comments = {};
 
@@ -143,7 +143,6 @@ export function Comments(props) {
 }
 
 Comments.propTypes = {
-  comments: React.PropTypes.number,
-  computedComments: React.PropTypes.array,
-  computedReactions: React.PropTypes.array
+  comments: React.PropTypes.array,
+  reactions: React.PropTypes.array
 };
