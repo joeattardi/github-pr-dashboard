@@ -56,6 +56,10 @@ footer {
   margin: 0.5rem;
   padding: 0.5rem;
 
+  img {
+    vertical-align: middle;
+  }
+
   &.pull-request--mergeable {
     background: #90C695;
     border-left: 36px solid #509655;

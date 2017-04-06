@@ -1,6 +1,9 @@
 import React from 'react';
 import moment from 'moment';
 
+import '../../images/repo.svg';
+import '../../images/git-pull-request.svg';
+
 import config from '../../config/config.json';
 import UserPhoto from './UserPhoto';
 import { hasMergeRules, isMergeable, Comments } from './Comments';
@@ -44,11 +47,11 @@ export default class PullRequest extends React.Component {
         <UserPhoto size={50} user={pr.user} />
         <div className="pull-request-info">
           <div className="pull-request-title">
-            <a target="_blank" href={pr.html_url}>{pr.title}</a>
+            <img src="images/git-pull-request.svg" /> <a target="_blank" href={pr.html_url}>{pr.title}</a>
           </div>
           <div>
             <a target="_blank" href={pr.base.repo.html_url}>
-              {pr.base.repo.full_name}
+              <img src="images/repo.svg" /> {pr.base.repo.full_name}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
             <Status
