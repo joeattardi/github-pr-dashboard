@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { refresh, loadPullRequests } from '../actions';
 import RefreshButton from './RefreshButton';
 import AutoRefreshControl from './AutoRefreshControl';
-import config from '../../config/config.json';
 import FilterRepoDropdown from './FilterRepoDropdown';
 
 class Toolbar extends React.Component {
@@ -14,7 +13,7 @@ class Toolbar extends React.Component {
       <FilterRepoDropdown
         onRefresh={this.props.refresh}
         failedRepos={this.props.failedRepos}
-        allRepos={config.repos}
+        allRepos={this.props.repos}
       />
     );
   }
@@ -23,7 +22,6 @@ class Toolbar extends React.Component {
       <div id="toolbar">
         <RefreshButton onRefresh={this.props.refresh} />
         <AutoRefreshControl onRefresh={this.props.refresh} />
-        {this.renderFilterRepoDropdown()}
       </div>
     );
   }
@@ -31,10 +29,11 @@ class Toolbar extends React.Component {
 
 Toolbar.propTypes = {
   refresh: React.PropTypes.func.isRequired,
-  failedRepos: React.PropTypes.array.isRequired
+  failedRepos: React.PropTypes.array.isRequired,
+  repos: React.PropTypes.array.isRequired
 };
 
-function mapStateToProps() { return {}; }
+function mapStateToProps(state) { return state; }
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -46,4 +45,3 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Toolbar);
-

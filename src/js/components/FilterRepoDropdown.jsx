@@ -30,7 +30,6 @@ export default class FilterRepoDropdown extends React.Component {
           <select value={this.state.value} onChange={this.handleChange}>
             <option key={0} value="All">All</option>
             {this.props.allRepos
-              .sort((a, b) => b - a)
               .map(repo => <option key={repo} value={repo}>{repo}</option>)
             }
           </select>
@@ -41,7 +40,6 @@ export default class FilterRepoDropdown extends React.Component {
           type="button"
           onClick={this.handleSubmit}
         >
-          <span className="glyphicon glyphicon-refresh"></span>
           <i className="fa fa-search"></i> Search
         </button>
       </div>
@@ -54,4 +52,3 @@ FilterRepoDropdown.propTypes = {
   onRefresh: React.PropTypes.func.isRequired,
   allRepos: React.PropTypes.array
 };
-
