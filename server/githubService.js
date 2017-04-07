@@ -1,5 +1,4 @@
 const axios = require('axios');
-const _ = require('lodash');
 
 const configManager = require('./configManager');
 const emoji = require('./emoji');
@@ -51,7 +50,11 @@ function getPullRequestComments(pr) {
 
 function getPullRequestReactions(pr) {
   const config = configManager.getConfig();
-  return axios.get(`${config.apiBaseUrl}/repos/${pr.repo}/issues/${pr.number}/reactions`, { headers: { Accept: 'application/vnd.github.squirrel-girl-preview' } }).then(reactions => {
+  return axios.get(`${config.apiBaseUrl}/repos/${pr.repo}/issues/${pr.number}/reactions`, {
+    headers: {
+      Accept: 'application/vnd.github.squirrel-girl-preview'
+    }
+  }).then(reactions => {
     pr.reactions = emoji.getOtherReactions(reactions.data).map(reaction => ({
       user: reaction.user.login,
       content: reaction.content
@@ -63,13 +66,12 @@ function getPullRequestReactions(pr) {
 }
 
 function getPullRequestStatus(pr) {
-  const config = configManager.getConfig();
   return axios.get(pr.statuses_url).then(statuses => {
     if (statuses.data.length) {
       pr.status = {
         state: statuses.data[0].state,
         description: statuses.data[0].description
-      }
+      };
     }
     delete pr.statuses_url;
   });
@@ -95,15 +97,13 @@ exports.loadPullRequests = function loadPullRequests() {
         prs.forEach(pr => {
           if (configManager.getNeverMergeRegexp().test(pr.title)) {
             pr.unmergeable = true;
-          } else if (pr.positiveComments >= config.mergeRule.positive && pr.negativeComments <= config.mergeRule.negative) {
+          } else if (pr.positiveComments >= config.mergeRule.positive &&
+              pr.negativeComments <= config.mergeRule.negative) {
             pr.mergeable = true;
           }
         });
       }
       return prs;
     });
-  })
-  .catch(err => {
-    console.log(err);
   });
 };

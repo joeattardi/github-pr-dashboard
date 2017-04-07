@@ -1,13 +1,13 @@
 {
   "name": "github-pr-dashboard",
-  "version": "0.9.1",
+  "version": "0.10.0",
   "description": "See open PRs across repos in GitHub",
   "main": "index.js",
   "repository": "joeattardi/github-pr-dashboard",
   "scripts": {
     "start": "webpack-dev-server",
     "dev-build": "webpack",
-    "lint": "eslint src test",
+    "lint": "eslint src test server",
     "clean": "rm -rf dist",
     "test": "karma start"
   },
