@@ -15,7 +15,7 @@ function translateReaction(reaction) {
 function renderCommentCount(comments) {
   return (
     <div className="pr-comment-count" title={`${comments} comments`}>
-      <i className="fa fa-comment"></i> {comments}
+      <i className="fa fa-comment-o"></i> {comments}
     </div>
   );
 }
@@ -23,7 +23,7 @@ function renderCommentCount(comments) {
 function renderPositiveComments(comments) {
   return (
     <div className="pr-comment-positive" title={`${comments} positive comments`}>
-      <i className="fa fa-thumbs-up"></i> {comments}
+      <i className="fa fa-thumbs-o-up"></i> {comments}
     </div>
   );
 }
@@ -31,7 +31,7 @@ function renderPositiveComments(comments) {
 function renderNegativeComments(comments) {
   return (
     <div className="pr-comment-negative" title={`${comments} negative comments`}>
-      <i className="fa fa-thumbs-down"></i> {comments}
+      <i className="fa fa-thumbs-o-down"></i> {comments}
     </div>
   );
 }

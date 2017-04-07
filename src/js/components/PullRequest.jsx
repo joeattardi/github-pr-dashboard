@@ -41,11 +41,13 @@ export default class PullRequest extends React.Component {
         <UserPhoto size={50} user={pr.user} />
         <div className="pull-request-info">
           <div className="pull-request-title">
-            <img src="images/git-pull-request.svg" /> <a target="_blank" href={pr.url}>{pr.title}</a>
+            <img src="images/git-pull-request.svg" alt="Pull request" />
+            &nbsp;
+            <a target="_blank" href={pr.url}>{pr.title}</a>
           </div>
           <div>
             <a target="_blank" href={pr.repoUrl}>
-              <img src="images/repo.svg" /> {pr.repo}
+              <img src="images/repo.svg" alt="Repository" /> {pr.repo}
             </a>
             <span className="pull-request-number">#{pr.number}</span>
             <Status
