@@ -13,9 +13,10 @@ emoji.init();
 
 app.get('/pulls', getPullRequests);
 
+const port = process.env.PORT || 8080;
 console.log('GitHub PR Dashboard');
-app.listen(3000, () => {
-  console.log('Listening on port 3000');
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
 
 function getPullRequests(req, res) {

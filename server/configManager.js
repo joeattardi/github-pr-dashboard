@@ -1,3 +1,4 @@
+const path = require('path');
 const fs = require('fs');
 const _ = require('lodash');
 
@@ -6,7 +7,7 @@ let config;
 let neverMergeRegexp;
 
 exports.loadConfig = function loadConfig() {
-  config = JSON.parse(fs.readFileSync('config/config.json'));
+  config = JSON.parse(fs.readFileSync(path.join(__dirname, '../config/config.json')));
 
   config.repos.sort();
 
@@ -28,4 +29,4 @@ exports.hasMergeRules = function hasMergeRules() {
 
 exports.getNeverMergeRegexp = function getNeverMergeRegexp() {
   return neverMergeRegexp;
-}
+};
