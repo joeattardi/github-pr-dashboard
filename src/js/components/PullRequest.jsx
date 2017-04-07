@@ -61,7 +61,7 @@ export default class PullRequest extends React.Component {
             />
           </div>
           <div className="pull-request-created" title={this.formatTime('Created', pr.created)}>
-            Created {this.formatRelativeTime(pr.created)}
+            Opened by {pr.user.username} {this.formatRelativeTime(pr.created)}
           </div>
         </div>
         <div

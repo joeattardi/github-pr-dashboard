@@ -6,13 +6,29 @@ export const ActionTypes = {
   SET_FAILED_REPOS: 'SET_FAILED_REPOS',
   REFRESH: 'REFRESH',
   START_LOADING: 'START_LOADING',
-  SET_ERROR: 'SET_ERROR'
+  SET_ERROR: 'SET_ERROR',
+  SET_REPOS: 'SET_REPOS',
+  SET_TITLE: 'SET_TITLE'
 };
 
 export function setError(error) {
   return {
     type: ActionTypes.SET_ERROR,
     error
+  };
+}
+
+export function setRepos(repos) {
+  return {
+    type: ActionTypes.SET_REPOS,
+    repos
+  };
+}
+
+export function setTitle(title) {
+  return {
+    type: ActionTypes.SET_TITLE,
+    title
   };
 }
 
@@ -48,7 +64,9 @@ export function loadPullRequests() {
   return dispatch => {
     dispatch({ type: ActionTypes.START_LOADING });
     return axios.get('/pulls').then(response => {
-      dispatch(addPullRequests(response.data));
+      dispatch(addPullRequests(response.data.pullRequests));
+      dispatch(setRepos(response.data.repos));
+      dispatch(setTitle(response.data.title));
     });
   };
 }

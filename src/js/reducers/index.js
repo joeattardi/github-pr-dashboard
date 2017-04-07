@@ -12,13 +12,28 @@ export function loadingReducer(state = false, action) {
   }
 }
 
+export function titleReducer(state = '', action) {
+  switch (action.type) {
+    case ActionTypes.SET_TITLE:
+      return action.title;
+    default:
+      return state;
+  }
+}
+
+export function reposReducer(state = [], action) {
+  switch (action.type) {
+    case ActionTypes.SET_REPOS:
+      return action.repos;
+    default:
+      return state;
+  }
+}
+
 export function pullRequestsReducer(state = [], action) {
   switch (action.type) {
     case ActionTypes.ADD_PULL_REQUESTS:
-      return [
-        ...state,
-        ...action.pullRequests
-      ];
+      return action.pullRequests;
     case ActionTypes.UPDATE_PULL_REQUEST:
       return state.map(pullRequest => {
         if (pullRequest.id === action.pullRequest.id) {
@@ -31,8 +46,6 @@ export function pullRequestsReducer(state = [], action) {
 
         return pullRequest;
       });
-    case ActionTypes.REFRESH:
-      return [];
     default:
       return state;
   }

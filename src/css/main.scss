@@ -281,6 +281,22 @@ button {
 
 .container-header {
   margin: 0.5rem;
+  display: flex;
+  align-items: center;
+
+  h1 {
+    margin: 0;
+  }
+
+  #pr-count, #repo-count {
+    font-size: 2em;
+    margin-left: 0.5em;
+
+    img {
+      width: 0.8em;
+      vertical-align: middle;
+    }
+  }
 }
 
 .filter-repo-container {

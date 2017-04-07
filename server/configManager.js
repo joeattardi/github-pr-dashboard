@@ -8,6 +8,8 @@ let neverMergeRegexp;
 exports.loadConfig = function loadConfig() {
   config = JSON.parse(fs.readFileSync('config/config.json'));
 
+  config.repos.sort();
+
   if (_.isString(config.mergeRule.neverRegexp)) {
     neverMergeRegexp = new RegExp(config.mergeRule.neverRegexp, 'i');
   }
