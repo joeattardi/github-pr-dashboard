@@ -1,9 +1,5 @@
 import axios from 'axios';
 
-import { getAllPullRequests, getPullRequestDetails } from '../api/githubService';
-
-import config from '../../config/config.json';
-
 export const ActionTypes = {
   ADD_PULL_REQUESTS: 'ADD_PULL_REQUESTS',
   UPDATE_PULL_REQUEST: 'UPDATE_PULL_REQUEST',
@@ -46,14 +42,6 @@ export function addFailedRepo(failedRepo) {
     type: ActionTypes.ADD_FAILED_REPO,
     failedRepo
   };
-}
-
-export function loadPullRequestDetails(owner, repo, number) {
-  return dispatch =>
-    getPullRequestDetails(owner, repo, number)
-      .then(pullRequestData => {
-        dispatch(updatePullRequest(pullRequestData));
-      });
 }
 
 export function loadPullRequests() {

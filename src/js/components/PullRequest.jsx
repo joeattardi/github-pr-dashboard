@@ -4,28 +4,22 @@ import moment from 'moment';
 import '../../images/repo.svg';
 import '../../images/git-pull-request.svg';
 
-import config from '../../config/config.json';
 import UserPhoto from './UserPhoto';
-import { hasMergeRules, isMergeable, Comments } from './Comments';
+import { Comments } from './Comments';
 import { Status } from './Status';
 
-const baseClassName = 'pull-request';
-const unmergeable = `${baseClassName} ${baseClassName}--unmergeable`;
-const mergeable = `${baseClassName} ${baseClassName}--mergeable`;
-const neverMerge = hasMergeRules() && new RegExp(config.mergeRule.neverRegexp, 'i');
-
-function isUnmergeable(pr) {
-  return neverMerge && neverMerge.test(pr.title);
-}
+const CLASS_BASE = 'pull-request';
+const CLASS_UNMERGEABLE = `${CLASS_BASE} ${CLASS_BASE}--unmergeable`;
+const CLASS_MERGEABLE = `${CLASS_BASE} ${CLASS_BASE}--mergeable`;
 
 function getPrClassName(pr) {
-  if (isUnmergeable(pr)) {
-    return unmergeable;
+  if (pr.unmergeable) {
+    return CLASS_UNMERGEABLE;
+  } else if (pr.mergeable) {
+    return CLASS_MERGEABLE;
   }
-  if (isMergeable(pr.comments, pr.reactions)) {
-    return mergeable;
-  }
-  return baseClassName;
+
+  return CLASS_BASE;
 }
 
 export default class PullRequest extends React.Component {
@@ -59,6 +53,8 @@ export default class PullRequest extends React.Component {
             />
             <Comments
               comments={pr.comments}
+              positiveCommentCount={pr.positiveComments}
+              negativeCommentCount={pr.negativeComments}
               reactions={pr.reactions}
             />
           </div>

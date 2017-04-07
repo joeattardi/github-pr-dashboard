@@ -2,6 +2,7 @@ const axios = require('axios');
 const _ = require('lodash');
 
 const configManager = require('./configManager');
+const emoji = require('./emoji');
 
 function getPullRequests(repos) {
   const config = configManager.getConfig();
@@ -34,12 +35,16 @@ function getPullRequests(repos) {
   });
 }
 
-function getPullRequestComment(pr) {
+function getPullRequestComments(pr) {
   return axios.get(pr.comments_url).then(comments => {
     pr.comments = comments.data.map(comment => ({
       body: comment.body,
       user: comment.user.login
     }));
+
+    pr.positiveComments = emoji.countPositiveComments(comments.data);
+    pr.negativeComments = emoji.countNegativeComments(comments.data);
+
     delete pr.comments_url;
   });
 }
@@ -47,10 +52,13 @@ function getPullRequestComment(pr) {
 function getPullRequestReactions(pr) {
   const config = configManager.getConfig();
   return axios.get(`${config.apiBaseUrl}/repos/${pr.repo}/issues/${pr.number}/reactions`, { headers: { Accept: 'application/vnd.github.squirrel-girl-preview' } }).then(reactions => {
-    pr.reactions = reactions.data.map(reaction => ({
+    pr.reactions = emoji.getOtherReactions(reactions.data).map(reaction => ({
       user: reaction.user.login,
       content: reaction.content
     }));
+
+    pr.positiveComments += emoji.countPositiveReactions(reactions.data);
+    pr.negativeComments += emoji.countNegativeReactions(reactions.data);
   });
 }
 
@@ -72,7 +80,7 @@ exports.loadPullRequests = function loadPullRequests() {
   const repos = config.repos;
 
   return getPullRequests(repos).then(prs => {
-    const commentsPromises = prs.map(pr => getPullRequestComment(pr));
+    const commentsPromises = prs.map(pr => getPullRequestComments(pr));
     return Promise.all(commentsPromises).then(() => prs);
   })
   .then(prs => {
@@ -82,8 +90,16 @@ exports.loadPullRequests = function loadPullRequests() {
   .then(prs => {
     const statusPromises = prs.map(pr => getPullRequestStatus(pr));
     return Promise.all(statusPromises).then(() => {
-      console.log('sorting');
       prs.sort((p1, p2) => new Date(p2.updated).getTime() - new Date(p1.updated).getTime());
+      if (configManager.hasMergeRules()) {
+        prs.forEach(pr => {
+          if (configManager.getNeverMergeRegexp().test(pr.title)) {
+            pr.unmergeable = true;
+          } else if (pr.positiveComments >= config.mergeRule.positive && pr.negativeComments <= config.mergeRule.negative) {
+            pr.mergeable = true;
+          }
+        });
+      }
       return prs;
     });
   })

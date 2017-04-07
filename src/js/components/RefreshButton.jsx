@@ -8,8 +8,7 @@ export default function RefreshButton(props) {
       className="btn btn-default"
       onClick={props.onRefresh}
     >
-      <span className="glyphicon glyphicon-refresh"></span>
-      <i className="fa fa-refresh"></i> Refresh
+      <i className="fa fa-refresh"></i>
     </button>
   );
 }

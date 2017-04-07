@@ -130,7 +130,7 @@ footer {
     .pending {
       color: $warning-color;
     }
-    .failure {
+    .failure, .error {
       color: $error-color;
     }
   }
