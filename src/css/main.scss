@@ -8,6 +8,7 @@ $repo-link-color: #bbdde1;
 body {
   background-color: #EEEEEE;
   font-family: 'Open Sans', sans-serif;
+  margin: 0;
 }
 
 .overlay {
@@ -182,28 +183,46 @@ a {
 }
 
 button {
-  background-color: $link-color;
+  background-color: transparent;
   padding: 0.5rem 1rem;
-  color: #FFFFFF;
+  color: darken($link-color, 10%);
   border-radius: 5px;
   border: 1px solid darken($link-color, 10%);
-  border-bottom-width: 3px;
   font-size: 0.8rem;
-  transition: all 0.3s ease 0s;
+  font-weight: bold;
+  transition: all 0.25s ease 0s;
   outline: none;
+  margin: 0.25em;
+
+  a {
+    color: #FFFFFF;
+  }
 
   &:hover {
-    $background: lighten($link-color, 10%);
+    $background: $link-color;
+    color: #FFFFFF;
     cursor: pointer;
     background-color: $background;
     border-color: darken($background, 10%);
   }
 
   &:active {
-    $background: lighten($link-color, 20%);
+    $background: $link-color;
+    color: #FFFFFF;
     outline: none;
     background-color: $background;
     border-color: darken($background, 10%);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+
+    &:hover {
+      background-color: transparent;
+      border-color: darken($link-color, 10%);
+      color: darken($link-color, 10%);
+    }
   }
 }
 
@@ -280,9 +299,11 @@ button {
 }
 
 .container-header {
-  margin: 0.5rem;
+  padding: 0.5rem;
   display: flex;
   align-items: center;
+  background-color: #C4D2E6;
+  box-shadow: 1px 1px 1px #999999;
 
   h1 {
     margin: 0;
@@ -306,4 +327,49 @@ button {
   .btn-filter {
     margin-left: 0.5rem;
   }
+}
+
+#edit-dashboard {
+  input {
+    font-size: 1em;
+  }
+
+  .content {
+    padding: 0.5em;
+  }
+
+  #positiveMerge, #negativeMerge {
+    width: 4em;
+  }
+
+  .item {
+    border: 1px solid #999999;
+    border-radius: 5px;
+    display: inline-block;
+    margin: 0.25em;
+    padding: 0.25em;
+    background-color: #E2E8F5;
+    box-shadow: 1px 1px 1px #999999;
+
+    i {
+      cursor: pointer;
+    }
+
+    img {
+      vertical-align: middle;
+    }
+  }
+
+  .edit-error {
+    background-color: $error-color;
+    color: #FFFFFF;
+    border-radius: 5px;
+    padding: 0.25em;
+  }
+}
+
+input {
+  padding: 0.25em;
+  border-radius: 2px;
+  border: 1px solid #999999;
 }

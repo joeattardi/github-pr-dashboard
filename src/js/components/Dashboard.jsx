@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import config from '../../config/config.json';
 import PullRequest from './PullRequest';
 import LoadingOverlay from './LoadingOverlay';
 import ErrorMessage from './ErrorMessage';
@@ -8,17 +7,7 @@ import Toolbar from './Toolbar';
 import Footer from './Footer';
 import RepoIndicator from './RepoIndicator';
 
-let lastRepoId = null;
-
 class Main extends React.Component {
-
-  isToShow(currentId) {
-    if (config.groupByRepo && (currentId !== lastRepoId)) {
-      lastRepoId = currentId;
-      return true;
-    }
-    return false;
-  }
 
   renderLoading() {
     if (this.props.loading) {
@@ -53,11 +42,6 @@ class Main extends React.Component {
         {this.renderLoading()}
         {this.props.pullRequests.map(pr =>
           <div key={pr.id}>
-            <RepoIndicator
-              key={pr.repoId}
-              pullRequest={pr}
-              show={this.isToShow(pr.repoId)}
-            />
             <PullRequest key={pr.id} pullRequest={pr} />
           </div>
         )}

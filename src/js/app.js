@@ -1,15 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import {
+  BrowserRouter as Router,
+  Route
+} from 'react-router-dom';
 
-import Main from './components/Main';
+import Dashboard from './components/Dashboard';
+import EditDashboard from './components/EditDashboard';
 import { loadPullRequests } from './actions';
-import config from '../config/config.json';
 import configureStore from './store';
 
 import '../css/main.scss';
-
-config.repos = config.repos.sort();
 
 const store = configureStore();
 
@@ -17,8 +19,12 @@ store.dispatch(loadPullRequests(undefined));
 
 ReactDOM.render(
   <Provider store={store}>
-    <Main />
+    <Router>
+      <div>
+        <Route exact path="/" component={Dashboard} />
+        <Route path="/settings" component={EditDashboard} />
+      </div>
+    </Router>
   </Provider>,
   document.getElementById('app')
 );
-

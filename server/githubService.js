@@ -77,6 +77,11 @@ function getPullRequestStatus(pr) {
   });
 }
 
+exports.getRepo = function getRepo(owner, name) {
+  const config = configManager.getConfig();
+  return axios.get(`${config.apiBaseUrl}/repos/${owner}/${name}`);
+};
+
 exports.loadPullRequests = function loadPullRequests() {
   const config = configManager.getConfig();
   const repos = config.repos;
@@ -95,7 +100,7 @@ exports.loadPullRequests = function loadPullRequests() {
       prs.sort((p1, p2) => new Date(p2.updated).getTime() - new Date(p1.updated).getTime());
       if (configManager.hasMergeRules()) {
         prs.forEach(pr => {
-          if (configManager.getNeverMergeRegexp().test(pr.title)) {
+          if (config.mergeRule.neverRegexp && configManager.getNeverMergeRegexp().test(pr.title)) {
             pr.unmergeable = true;
           } else if (pr.positiveComments >= config.mergeRule.positive &&
               pr.negativeComments <= config.mergeRule.negative) {

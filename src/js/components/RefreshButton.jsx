@@ -7,8 +7,9 @@ export default function RefreshButton(props) {
       type="button"
       className="btn btn-default"
       onClick={props.onRefresh}
+      title="Refresh"
     >
-      <i className="fa fa-refresh"></i>
+      <i className="fa fa-lg fa-refresh"></i>
     </button>
   );
 }

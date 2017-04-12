@@ -1,6 +1,6 @@
 {
   "name": "github-pr-dashboard",
-  "version": "0.10.0",
+  "version": "1.0.0",
   "description": "See open PRs across repos in GitHub",
   "main": "index.js",
   "repository": "joeattardi/github-pr-dashboard",
@@ -47,6 +47,7 @@
   "dependencies": {
     "axios": "^0.13.1",
     "bluebird": "^3.4.0",
+    "body-parser": "^1.17.1",
     "emojione": "^2.2.6",
     "express": "^4.15.2",
     "lodash": "^4.17.4",
@@ -54,6 +55,7 @@
     "react": "^15.1.0",
     "react-dom": "^15.1.0",
     "react-redux": "^4.4.5",
+    "react-router-dom": "^4.0.0",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0"
   }

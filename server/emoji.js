@@ -2,8 +2,8 @@ const emojione = require('emojione');
 
 const configManager = require('./configManager');
 
-const positiveEmojis = [];
-const negativeEmojis = [];
+let positiveEmojis = [];
+let negativeEmojis = [];
 
 function countReactions(reactions, whitelist) {
   let count = 0;
@@ -33,6 +33,8 @@ function countComments(comments, whitelist) {
 
 exports.init = function init() {
   const config = configManager.getConfig();
+  positiveEmojis = [];
+  negativeEmojis = [];
 
   config.comments.positive.forEach(positive => {
     if (positiveEmojis.indexOf(positive) < 0) {

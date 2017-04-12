@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 
 import { refresh, loadPullRequests } from '../actions';
 import RefreshButton from './RefreshButton';
+import SettingsButton from './SettingsButton';
 import AutoRefreshControl from './AutoRefreshControl';
 import FilterRepoDropdown from './FilterRepoDropdown';
 
@@ -20,6 +21,7 @@ class Toolbar extends React.Component {
   render() {
     return (
       <div id="toolbar">
+        <SettingsButton />
         <RefreshButton onRefresh={this.props.refresh} />
         <AutoRefreshControl onRefresh={this.props.refresh} />
       </div>
