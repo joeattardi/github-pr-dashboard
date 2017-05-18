@@ -11,7 +11,7 @@ or `npm run build`.
 
 # Configuration
 
-Copy the file `config/config.json.sample` to `config/config.json`. If you are accessing public GitHub, you don't need to change the `apiBaseUrl` option. If you are accessing a GitHub Enterprise instance, you will need to set `apiBaseUrl` to the base URL of your GitHub Enterprise installation, e.g. `https://github.mycompany.com/api/v3`.
+Copy the file `config/config.json.sample` to `config/config.json`. If you are accessing public GitHub, you don't need to change the `apiBaseUrl` option. If you are accessing a GitHub Enterprise instance, you will need to set `apiBaseUrl` to the base URL of your GitHub Enterprise installation, e.g. `https://github.mycompany.com/api/v3`.  To use the GitHub Personal Access Token for accessing private repositories, `username` and `password` lines in `config/config.jsson` can be replaced with a single `"token": "MY_PERSONAL_TOKEN"` line. 
 
 GitHub places a very strict rate limit on unauthenticated requests. If you run into this problem, you will need to add your GitHub username and password in `config.json`.
 
