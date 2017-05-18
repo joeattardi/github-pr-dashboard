@@ -54,6 +54,7 @@ export default class AddRepo extends React.Component {
               error: 'That repository does not exist.'
             });
           } else {
+            /* eslint-disable no-console */
             console.error(error);
             this.setState({
               error: 'An unexpected error has occurred. Please try again.'

@@ -3,11 +3,23 @@ const axios = require('axios');
 const configManager = require('./configManager');
 const emoji = require('./emoji');
 
+function apiCall(url, headers = {}) {
+  const config = configManager.getConfig();
+  const options = { headers };
+  if (config.username && config.password) {
+    options.auth = {
+      username: config.username,
+      password: config.password
+    };
+  }
+  return axios.get(url, options);
+}
+
 function getPullRequests(repos) {
   const config = configManager.getConfig();
 
   let pullRequests = [];
-  const promises = repos.map(repo => axios.get(`${config.apiBaseUrl}/repos/${repo}/pulls`));
+  const promises = repos.map(repo => apiCall(`${config.apiBaseUrl}/repos/${repo}/pulls`));
   return Promise.all(promises).then(results => {
     results.forEach(result => {
       pullRequests = pullRequests.concat(result.data);
@@ -35,7 +47,7 @@ function getPullRequests(repos) {
 }
 
 function getPullRequestComments(pr) {
-  return axios.get(pr.comments_url).then(comments => {
+  return apiCall(pr.comments_url).then(comments => {
     pr.comments = comments.data.map(comment => ({
       body: comment.body,
       user: comment.user.login
@@ -50,10 +62,8 @@ function getPullRequestComments(pr) {
 
 function getPullRequestReactions(pr) {
   const config = configManager.getConfig();
-  return axios.get(`${config.apiBaseUrl}/repos/${pr.repo}/issues/${pr.number}/reactions`, {
-    headers: {
-      Accept: 'application/vnd.github.squirrel-girl-preview'
-    }
+  return apiCall(`${config.apiBaseUrl}/repos/${pr.repo}/issues/${pr.number}/reactions`, {
+    Accept: 'application/vnd.github.squirrel-girl-preview'
   }).then(reactions => {
     pr.reactions = emoji.getOtherReactions(reactions.data).map(reaction => ({
       user: reaction.user.login,
@@ -66,7 +76,7 @@ function getPullRequestReactions(pr) {
 }
 
 function getPullRequestStatus(pr) {
-  return axios.get(pr.statuses_url).then(statuses => {
+  return apiCall(pr.statuses_url).then(statuses => {
     if (statuses.data.length) {
       pr.status = {
         state: statuses.data[0].state,
@@ -79,7 +89,7 @@ function getPullRequestStatus(pr) {
 
 exports.getRepo = function getRepo(owner, name) {
   const config = configManager.getConfig();
-  return axios.get(`${config.apiBaseUrl}/repos/${owner}/${name}`);
+  return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);
 };
 
 exports.loadPullRequests = function loadPullRequests() {

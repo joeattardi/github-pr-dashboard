@@ -5,7 +5,6 @@ import LoadingOverlay from './LoadingOverlay';
 import ErrorMessage from './ErrorMessage';
 import Toolbar from './Toolbar';
 import Footer from './Footer';
-import RepoIndicator from './RepoIndicator';
 
 class Main extends React.Component {
 

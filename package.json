@@ -5,8 +5,9 @@
   "main": "index.js",
   "repository": "joeattardi/github-pr-dashboard",
   "scripts": {
-    "start": "webpack-dev-server",
+    "start": "node server/index.js",
     "dev-build": "webpack",
+    "build": "webpack -p",
     "lint": "eslint src test server",
     "clean": "rm -rf dist",
     "test": "karma start"
