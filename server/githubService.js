@@ -10,8 +10,13 @@ function apiCall(url, headers = {}) {
     options.auth = {
       username: config.username,
       password: config.password
-    };
-  }
+    }
+  } else if (config.token ) {
+    options.auth = {
+      username: config.token 
+    }
+  };
+  
   return axios.get(url, options);
 }
 
