@@ -38,10 +38,16 @@ class Main extends React.Component {
     const objs = this.props.pullRequests;
     objs.sort(function compare(a, b) {
       if (a.repoUrl < b.repoUrl) {
-        return -1;
+        return 1;
       }
       if (a.repoUrl > b.repoUrl) {
+        return -1;
+      }
+      if (a.updated < b.updated) {
         return 1;
+      }
+      if (a.updated > b.updated) {
+        return -1;
       }
       return 0;
     });
