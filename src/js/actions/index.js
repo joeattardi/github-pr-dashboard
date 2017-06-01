@@ -8,7 +8,8 @@ export const ActionTypes = {
   START_LOADING: 'START_LOADING',
   SET_ERROR: 'SET_ERROR',
   SET_REPOS: 'SET_REPOS',
-  SET_TITLE: 'SET_TITLE'
+  SET_TITLE: 'SET_TITLE',
+  SORT: 'SORT'
 };
 
 export function setError(error) {
@@ -74,5 +75,14 @@ export function loadPullRequests() {
 export function refresh() {
   return {
     type: ActionTypes.REFRESH
+  };
+}
+
+export function sort({ sortByRepo }) {
+  return {
+    type: ActionTypes.SORT,
+    sortOptions: {
+      sortByRepo
+    }
   };
 }
