@@ -8,7 +8,8 @@ export const ActionTypes = {
   START_LOADING: 'START_LOADING',
   SET_ERROR: 'SET_ERROR',
   SET_REPOS: 'SET_REPOS',
-  SET_TITLE: 'SET_TITLE'
+  SET_TITLE: 'SET_TITLE',
+  SORT: 'SORT'
 };
 
 export function setError(error) {
@@ -32,10 +33,11 @@ export function setTitle(title) {
   };
 }
 
-export function addPullRequests(pullRequests) {
+export function addPullRequests(pullRequests, sortOptions) {
   return {
     type: ActionTypes.ADD_PULL_REQUESTS,
-    pullRequests
+    pullRequests,
+    sortOptions
   };
 }
 
@@ -61,10 +63,11 @@ export function addFailedRepo(failedRepo) {
 }
 
 export function loadPullRequests() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { sortOptions } = getState();
     dispatch({ type: ActionTypes.START_LOADING });
     return axios.get('/pulls').then(response => {
-      dispatch(addPullRequests(response.data.pullRequests));
+      dispatch(addPullRequests(response.data.pullRequests, sortOptions));
       dispatch(setRepos(response.data.repos));
       dispatch(setTitle(response.data.title));
     });
@@ -74,5 +77,14 @@ export function loadPullRequests() {
 export function refresh() {
   return {
     type: ActionTypes.REFRESH
+  };
+}
+
+export function sort({ sortByRepo }) {
+  return {
+    type: ActionTypes.SORT,
+    sortOptions: {
+      sortByRepo
+    }
   };
 }

@@ -30,33 +30,16 @@ class Main extends React.Component {
     );
   }
 
-  /* eslint prefer-arrow-callback: ["error", { "allowNamedFunctions": true }] */
   renderBody() {
     if (this.props.error) {
       return <ErrorMessage message={this.props.error} />;
     }
-    const objs = this.props.pullRequests;
-    objs.sort(function compare(a, b) {
-      if (a.repoUrl < b.repoUrl) {
-        return 1;
-      }
-      if (a.repoUrl > b.repoUrl) {
-        return -1;
-      }
-      if (a.updated < b.updated) {
-        return 1;
-      }
-      if (a.updated > b.updated) {
-        return -1;
-      }
-      return 0;
-    });
 
     return (
       <div>
         {this.renderFailedRepos()}
         {this.renderLoading()}
-        {objs.map(pr =>
+        {this.props.pullRequests.map(pr =>
           <div key={pr.id}>
             <PullRequest key={pr.id} pullRequest={pr} />
           </div>

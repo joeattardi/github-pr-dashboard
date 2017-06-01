@@ -6,6 +6,7 @@ import RefreshButton from './RefreshButton';
 import SettingsButton from './SettingsButton';
 import AutoRefreshControl from './AutoRefreshControl';
 import FilterRepoDropdown from './FilterRepoDropdown';
+import SortControl from './SortControl';
 
 class Toolbar extends React.Component {
 
@@ -24,6 +25,7 @@ class Toolbar extends React.Component {
         <SettingsButton />
         <RefreshButton onRefresh={this.props.refresh} />
         <AutoRefreshControl onRefresh={this.props.refresh} />
+        <SortControl />
       </div>
     );
   }

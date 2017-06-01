@@ -7,7 +7,8 @@ import {
   titleReducer,
   pullRequestsReducer,
   failedReposReducer,
-  errorReducer
+  errorReducer,
+  sortOptionsReducer
 } from '../reducers';
 
 export default function configureStore() {
@@ -17,7 +18,8 @@ export default function configureStore() {
     failedRepos: failedReposReducer,
     loading: loadingReducer,
     error: errorReducer,
-    title: titleReducer
+    title: titleReducer,
+    sortOptions: sortOptionsReducer
   });
 
   return createStore(reducer, {}, compose(
