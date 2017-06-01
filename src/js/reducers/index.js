@@ -53,7 +53,7 @@ function sortPullRequests(pullRequests, sortByRepo) {
 export function pullRequestsReducer(state = [], action) {
   switch (action.type) {
     case ActionTypes.ADD_PULL_REQUESTS:
-      return sortPullRequests(action.pullRequests);
+      return sortPullRequests(action.pullRequests, action.sortOptions.sortByRepo);
 
     case ActionTypes.SORT:
       return sortPullRequests(state, action.sortOptions.sortByRepo);
@@ -93,7 +93,7 @@ export function errorReducer(state = '', action) {
   }
 }
 
-export function sortOptionsReducer(state = { sortOptions: { sortByRepo: true } }, action) {
+export function sortOptionsReducer(state = { sortByRepo: true }, action) {
   switch (action.type) {
     case ActionTypes.SORT:
       return action.sortOptions;

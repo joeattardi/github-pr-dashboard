@@ -33,10 +33,11 @@ export function setTitle(title) {
   };
 }
 
-export function addPullRequests(pullRequests) {
+export function addPullRequests(pullRequests, sortOptions) {
   return {
     type: ActionTypes.ADD_PULL_REQUESTS,
-    pullRequests
+    pullRequests,
+    sortOptions
   };
 }
 
@@ -62,10 +63,11 @@ export function addFailedRepo(failedRepo) {
 }
 
 export function loadPullRequests() {
-  return dispatch => {
+  return (dispatch, getState) => {
+    const { sortOptions } = getState();
     dispatch({ type: ActionTypes.START_LOADING });
     return axios.get('/pulls').then(response => {
-      dispatch(addPullRequests(response.data.pullRequests));
+      dispatch(addPullRequests(response.data.pullRequests, sortOptions));
       dispatch(setRepos(response.data.repos));
       dispatch(setTitle(response.data.title));
     });

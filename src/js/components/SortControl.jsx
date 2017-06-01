@@ -6,18 +6,12 @@ import * as actionCreators from '../actions';
 class SortControl extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
-
     this.toggleSortByRepo = this.toggleSortByRepo.bind(this);
   }
 
 
   toggleSortByRepo() {
     const sortByRepo = this.refs.sortByRepoCheckbox.checked;
-
-    console.log('sortByRepoCheckbox', sortByRepo);
-    console.log('sortOptions', this.props.sortOptions);
     this.props.actions.sort({ sortByRepo });
   }
 
@@ -28,7 +22,8 @@ class SortControl extends React.Component {
           type="checkbox"
           ref="sortByRepoCheckbox"
           id="sort-by-repo"
-          onClick={this.toggleSortByRepo}
+          onChange={this.toggleSortByRepo}
+          checked={this.props.sortOptions.sortByRepo}
         />
         <label htmlFor="sort-by-repo"><strong>Sort By Repo</strong></label>
       </div>
