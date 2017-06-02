@@ -35,11 +35,15 @@ footer {
   display: flex;
   align-items: center;
 
+  #sort-by-repo-container {
+    margin-left: 10px;
+  }
+
   #refresh-button {
     margin-right: 5px;
   }
 
-  #auto-refresh {
+  #auto-refresh, #sort-by-repo {
     margin: 0 5px 0 5px;
   }
 
@@ -150,13 +154,13 @@ footer {
 
     .pr-comment-positive {
       i {
-        // color: green;
+         color: green;
       }
     }
 
     .pr-comment-negative {
       i {
-        // color: red;
+         color: red;
       }
     }
   }

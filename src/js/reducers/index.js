@@ -30,10 +30,34 @@ export function reposReducer(state = [], action) {
   }
 }
 
+function sortPullRequests(pullRequests, sortByRepo) {
+  return [...pullRequests].sort((a, b) => {
+    if (sortByRepo) {
+      if (a.repoUrl < b.repoUrl) {
+        return 1;
+      }
+      if (a.repoUrl > b.repoUrl) {
+        return -1;
+      }
+    }
+    if (a.updated < b.updated) {
+      return 1;
+    }
+    if (a.updated > b.updated) {
+      return -1;
+    }
+    return 0;
+  });
+}
+
 export function pullRequestsReducer(state = [], action) {
   switch (action.type) {
     case ActionTypes.ADD_PULL_REQUESTS:
-      return action.pullRequests;
+      return sortPullRequests(action.pullRequests, action.sortOptions.sortByRepo);
+
+    case ActionTypes.SORT:
+      return sortPullRequests(state, action.sortOptions.sortByRepo);
+
     case ActionTypes.UPDATE_PULL_REQUEST:
       return state.map(pullRequest => {
         if (pullRequest.id === action.pullRequest.id) {
@@ -64,6 +88,15 @@ export function errorReducer(state = '', action) {
   switch (action.type) {
     case ActionTypes.SET_ERROR:
       return action.error;
+    default:
+      return state;
+  }
+}
+
+export function sortOptionsReducer(state = { sortByRepo: true }, action) {
+  switch (action.type) {
+    case ActionTypes.SORT:
+      return action.sortOptions;
     default:
       return state;
   }
