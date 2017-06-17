@@ -80,11 +80,12 @@ export function refresh() {
   };
 }
 
-export function sort({ sortByRepo }) {
+export function sort({ sortByRepo, orderBy }) {
   return {
     type: ActionTypes.SORT,
     sortOptions: {
-      sortByRepo
+      sortByRepo,
+      orderBy
     }
   };
 }

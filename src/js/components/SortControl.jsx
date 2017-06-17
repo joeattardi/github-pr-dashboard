@@ -6,26 +6,38 @@ import * as actionCreators from '../actions';
 class SortControl extends React.Component {
   constructor(props) {
     super(props);
-    this.toggleSortByRepo = this.toggleSortByRepo.bind(this);
+
+    this.changeSortOptions = this.changeSortOptions.bind(this);
   }
 
-
-  toggleSortByRepo() {
+  changeSortOptions() {
     const sortByRepo = this.refs.sortByRepoCheckbox.checked;
-    this.props.actions.sort({ sortByRepo });
+    const orderBy = this.refs.orderBySelect.value;
+
+    this.props.actions.sort({ sortByRepo, orderBy });
   }
 
   render() {
     return (
-      <div id="sort-by-repo-container">
-        <input
-          type="checkbox"
-          ref="sortByRepoCheckbox"
-          id="sort-by-repo"
-          onChange={this.toggleSortByRepo}
-          checked={this.props.sortOptions.sortByRepo}
-        />
-        <label htmlFor="sort-by-repo"><strong>Sort By Repo</strong></label>
+      <div id="sort-container">
+        <span style={{ marginRight: '1em' }}>
+          <input
+            type="checkbox"
+            ref="sortByRepoCheckbox"
+            id="sort-by-repo"
+            onChange={this.changeSortOptions}
+            checked={this.props.sortOptions.sortByRepo}
+          />
+          <label htmlFor="sort-by-repo"><strong>Sort by repo</strong></label>
+        </span>
+        <span>
+          <label htmlFor="order-by"><strong>Order by</strong></label>
+          &nbsp;
+          <select id="order-by" ref="orderBySelect" onChange={this.changeSortOptions}>
+            <option value="updated">last updated</option>
+            <option value="created">created</option>
+          </select>
+        </span>
       </div>
     );
   }
