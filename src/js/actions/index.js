@@ -69,7 +69,9 @@ export function loadPullRequests() {
     return axios.get('/pulls').then(response => {
       dispatch(addPullRequests(response.data.pullRequests, sortOptions));
       dispatch(setRepos(response.data.repos));
-      dispatch(setTitle(response.data.title));
+      dispatch(setTitle(response.data.title || 'Pull Requests'));
+    }).catch(() => {
+      dispatch(setError('Failed to load pull requests. Double check that all your repos exist!'));
     });
   };
 }
