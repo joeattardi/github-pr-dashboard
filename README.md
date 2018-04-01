@@ -18,5 +18,22 @@ GitHub places a very strict rate limit on unauthenticated requests. If you run i
 # Running the server
 To run the PR dashbaord server, run `npm start`. This will start the server, listening on port 8080. You can change the port number by setting a `PORT` environment variable, e.g. `export PORT=80`.
 
+## Running with Docker
+
+You can build and run a Dockerized version of the app within a container without installing any dependencides locally.
+Make sure you have already created a `config.json` as described above.
+
+To build a new application image, in the project directory run:
+
+`docker build -t joeattardi/github-pr-dashboard .`
+
+To run the application:
+
+`docker run -p 8080:8080 -d joeattardi/github-pr-dashboard`
+
+or if you specified a custom `PORT` to run the app on:
+
+`docker run -p $PORT:8080 -d joeattardi/github-pr-dashboard`
+
 # Adding repositories
 Once the server is running, visit it in your web browser and click the gear icon.
