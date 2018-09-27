@@ -2,6 +2,7 @@ const axios = require('axios');
 
 const configManager = require('./configManager');
 const emoji = require('./emoji');
+const reviews = require('./reviews');
 
 function apiCall(url, headers = {}) {
   const config = configManager.getConfig();
@@ -92,6 +93,16 @@ function getPullRequestStatus(pr) {
   });
 }
 
+function getPullRequestReviews(pr) {
+  const config = configManager.getConfig();
+  return apiCall(`${config.apiBaseUrl}/repos/${pr.repo}/pulls/${pr.number}/reviews`).then(reviewData => {
+    if (reviewData.data.length) {
+      pr.positiveComments += reviews.countReviews(reviewData.data, 'APPROVED')
+      pr.negativeComments += reviews.countReviews(reviewData.data, 'CHANGES_REQUESTED')
+    }
+  });
+}
+
 exports.getRepo = function getRepo(owner, name) {
   const config = configManager.getConfig();
   return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);
@@ -108,6 +119,10 @@ exports.loadPullRequests = function loadPullRequests() {
   .then(prs => {
     const reactionsPromises = prs.map(pr => getPullRequestReactions(pr));
     return Promise.all(reactionsPromises).then(() => prs);
+  })
+  .then(prs => {
+    const reviewPromises = prs.map(pr => getPullRequestReviews(pr));
+    return Promise.all(reviewPromises).then(() => prs);
   })
   .then(prs => {
     const statusPromises = prs.map(pr => getPullRequestStatus(pr));
