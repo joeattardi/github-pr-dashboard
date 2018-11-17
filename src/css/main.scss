@@ -99,6 +99,23 @@ footer {
     }
   }
 
+  &.pull-request--stale {
+    background: #F4C542;
+    border-left: 36px solid #E2E600;
+
+    &:before {
+      color: #FFFFFF;
+      font-family: FontAwesome;
+      font-weight: normal;
+      font-style: normal;
+      display: inline-block;
+      text-decoration: inherit;
+      position: absolute;
+      margin-left: -34px;
+      content: "\f071";
+    }
+  }
+
   .pull-request-info {
     flex-grow: 1;
   }

@@ -22,6 +22,7 @@ class EditDashboard extends React.Component {
         mergeRule: {
           positive: 0,
           negative: 0,
+          staleHours: 0,
           neverRegexp: ''
         }
       }
@@ -38,6 +39,7 @@ class EditDashboard extends React.Component {
     this.removeNegative = this.removeNegative.bind(this);
     this.handleChangePositiveMergeRule = this.handleChangePositiveMergeRule.bind(this);
     this.handleChangeNegativeMergeRule = this.handleChangeNegativeMergeRule.bind(this);
+    this.handleChangeStaleHours = this.handleChangeStaleHours.bind(this);
     this.handleChangeNeverRegexp = this.handleChangeNeverRegexp.bind(this);
   }
 
@@ -54,6 +56,11 @@ class EditDashboard extends React.Component {
 
   handleChangeNegativeMergeRule(event) {
     this.state.config.mergeRule.negative = parseInt(event.target.value, 10);
+    this.setState({ config: this.state.config });
+  }
+
+  handleChangeStaleHours(event) {
+    this.state.config.mergeRule.staleHours = parseInt(event.target.value, 10);
     this.setState({ config: this.state.config });
   }
 
@@ -194,6 +201,12 @@ class EditDashboard extends React.Component {
             <input
               type="number" id="negativeMerge" value={this.state.config.mergeRule.negative}
               onChange={this.handleChangeNegativeMergeRule}
+            />
+
+            <div><label htmlFor="staleHours">Hours Till PR is Stale</label></div>
+            <input
+              type="number" id="staleHours" value={this.state.config.mergeRule.staleHours}
+              onChange={this.handleChangeStaleHours}
             />
 
             <div><label htmlFor="neverMerge">Never merge regexp</label></div>
