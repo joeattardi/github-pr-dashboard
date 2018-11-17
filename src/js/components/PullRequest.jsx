@@ -11,12 +11,15 @@ import { Status } from './Status';
 const CLASS_BASE = 'pull-request';
 const CLASS_UNMERGEABLE = `${CLASS_BASE} ${CLASS_BASE}--unmergeable`;
 const CLASS_MERGEABLE = `${CLASS_BASE} ${CLASS_BASE}--mergeable`;
+const CLASS_STALE = `${CLASS_BASE} ${CLASS_BASE}--stale`;
 
 function getPrClassName(pr) {
   if (pr.unmergeable) {
     return CLASS_UNMERGEABLE;
   } else if (pr.mergeable) {
     return CLASS_MERGEABLE;
+  } else if (pr.stale) {
+    return CLASS_STALE;
   }
 
   return CLASS_BASE;

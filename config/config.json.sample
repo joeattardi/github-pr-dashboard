@@ -19,6 +19,7 @@
   "mergeRule": {
     "positive": 2,
     "negative": 0,
+    "staleHours": 0,
     "neverRegexp": "DO NOT MERGE"
   }
 }

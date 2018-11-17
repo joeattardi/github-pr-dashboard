@@ -23,6 +23,7 @@ exports.updateConfig = function updateConfig(updatedConfig) {
   config.repos = updatedConfig.repos;
   config.comments = updatedConfig.comments;
   config.mergeRule = updatedConfig.mergeRule;
+  config.staleHours = updatedConfig.staleHours;
   neverMergeRegexp = new RegExp(updatedConfig.mergeRule.neverRegexp, 'i');
   config.repos.sort();
   emoji.init();
@@ -38,7 +39,8 @@ exports.hasMergeRules = function hasMergeRules() {
   return config.mergeRule &&
     _.isNumber(config.mergeRule.positive) &&
     _.isNumber(config.mergeRule.negative) &&
-    _.isString(config.mergeRule.neverRegexp);
+    _.isString(config.mergeRule.neverRegexp) &&
+    _.isNumber(config.mergeRule.staleHours);
 };
 
 exports.getNeverMergeRegexp = function getNeverMergeRegexp() {

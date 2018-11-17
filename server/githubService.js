@@ -103,6 +103,17 @@ function getPullRequestReviews(pr) {
   });
 }
 
+function prIsStale(pr) {
+  const currentDate = new Date();
+  const staleHours = configManager.getConfig().mergeRule.staleHours;
+  if (staleHours > 0) {
+    const hoursBack = currentDate.getHours() - staleHours;
+    const previousDate = currentDate.setHours(hoursBack);
+    return new Date(pr.created).getTime() < previousDate;
+  }
+  return false;
+}
+
 exports.getRepo = function getRepo(owner, name) {
   const config = configManager.getConfig();
   return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);
@@ -133,8 +144,10 @@ exports.loadPullRequests = function loadPullRequests() {
           if (config.mergeRule.neverRegexp && configManager.getNeverMergeRegexp().test(pr.title)) {
             pr.unmergeable = true;
           } else if (pr.positiveComments >= config.mergeRule.positive &&
-              pr.negativeComments <= config.mergeRule.negative) {
+            pr.negativeComments <= config.mergeRule.negative) {
             pr.mergeable = true;
+          } else if (prIsStale(pr)) {
+            pr.stale = true;
           }
         });
       }
