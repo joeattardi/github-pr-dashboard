@@ -11,3 +11,5 @@ GitHub PR Dashboard started out as a side project for learning React. Thanks to 
  - Bruce Mayhew
  - Andrey Marushkevych
  - Sanjay Nair
+ - Tyler Techo
+ - Andrew Tomlinson
