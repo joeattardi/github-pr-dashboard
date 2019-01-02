@@ -12,6 +12,7 @@ import { loadPullRequests } from './actions';
 import configureStore from './store';
 
 import '../css/main.scss';
+import '../images/favicon.ico';
 
 const store = configureStore();
 
