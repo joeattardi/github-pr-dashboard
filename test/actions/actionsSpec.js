@@ -11,11 +11,4 @@ describe('Action Creators', () => {
       pullRequest: {}
     });
   });
-
-  it('should create an ADD_FAILED_REPO action', () => {
-    expect(actions.addFailedRepo('owner/repo')).toEqual({
-      type: actions.ActionTypes.ADD_FAILED_REPO,
-      failedRepo: 'owner/repo'
-    });
-  });
 });
