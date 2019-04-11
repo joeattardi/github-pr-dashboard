@@ -16,10 +16,10 @@ before_install:
 - eval "$(aws ecr get-login --no-include-email --region us-east-2)"
 - docker build -t $ECR_URL .
 - docker push $ECR_URL
-- aws codebuild start-build --region $AWS_REGION --project-name github-pr-dashboard-deploy --source-version test
+- aws codebuild start-build --region $AWS_REGION --project-name github-pr-dashboard-deploy --source-version devops
 skip_cleanup: true
 on:
-  branch: test
+  branch: devops
 
 env:
   global:
