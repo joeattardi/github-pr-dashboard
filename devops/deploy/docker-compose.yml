@@ -6,7 +6,7 @@ services:
     image: rancher/lb-service-haproxy:v0.9.1
   github-dashboard:
     container_name: 'github-dashboard'
-    image: 859455775147.dkr.ecr.us-east-2.amazonaws.com/express/github-dashboard
+    image: 859455775147.dkr.ecr.us-east-2.amazonaws.com/express/github-pr-dashboard
     restart: 'always'
     stdin_open: true
     tty: true
