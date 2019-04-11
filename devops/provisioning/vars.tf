@@ -2,11 +2,21 @@ variable "region" {
   default = "us-east-2"
 }
 
-variable "app_name" { }
-variable "app_environment" { }
-variable "app_repository" { } # Repository name
-variable "app_repo_link" { } # Git link
+variable "app_name" {
+  default = "gitthub-pr-dashboard"
+}
 
+variable "app_environment" {
+  default = "dev"
+}
+
+variable "app_repository" {
+  default = "github-pr-dashboard"
+}
+
+variable "app_repo_link" {
+  default = "https://github.com/express-labs/github-pr-dashboard.git"
+}
 
 ############################################
 #### Resource 2:  AWS Data filters
