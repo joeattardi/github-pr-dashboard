@@ -1,7 +1,7 @@
 {
   "apiBaseUrl": "https://api.github.com",
-  "username": "",
-  "password": "",
+  "username": "EXPEcommDevOps",
+  "password": "c2504d55f00433c18d10734813e0b8793bc77875",
   "groupByRepo": false,
   "repos": [
 

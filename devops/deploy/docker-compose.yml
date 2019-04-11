@@ -14,4 +14,4 @@ services:
       driver: awslogs
       options:
         awslogs-region: "us-east-2"
-        awslogs-group: "/rancher/dev/github-dashboard"
+        awslogs-group: "/rancher/github-dashboard"
