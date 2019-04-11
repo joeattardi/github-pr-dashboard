@@ -15,3 +15,8 @@ services:
       options:
         awslogs-region: "us-east-2"
         awslogs-group: "/rancher/github-dashboard"
+    secrets:
+      - github_pr_config
+secrets:
+  github_pr_config:
+    external: true
