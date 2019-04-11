@@ -1,6 +1,6 @@
 node_modules
 dist
 npm-debug.log
-config/config.json
 .idea/
 .DS_Store
+.terraform

@@ -1,0 +1,29 @@
+sudo: required
+language: node_js
+node_js: 11.10.0
+services:
+- docker
+addons:
+  chrome: stable
+before_install:
+#- export DISPLAY=:99.0
+#- sh -e /etc/init.d/xvfb start
+- git checkout $TRAVIS_BRANCH
+- sudo apt-get update
+- sudo apt-get install -y python3-pip
+- pip3 install --user awscli
+- export PATH=$PATH:$HOME/.local/bin
+- eval "$(aws ecr get-login --no-include-email --region us-east-2)"
+- docker build -t $ECR_URL .
+- docker push $ECR_URL
+- aws codebuild start-build --region $AWS_REGION --project-name github-pr-dashboard-deploy --source-version test
+skip_cleanup: true
+on:
+  branch: test
+
+env:
+  global:
+  - AWS_REGION=us-east-2
+  - ECR_URL=859455775147.dkr.ecr.us-east-2.amazonaws.com/express/github-dashboard
+  - secure: P62vUnAHNJHuyW0ikVSgsH1HvxgqUsiMINSq7ThQo7wm/vnDfFMJKT+yJj7BtXBt3FUxg7Iv2+IkrIaTUD6n/d17JBI5E4rWfFJ2u0/Phshx1aAVItknpNR69PZJh32WB6Xtb4cpMJryUuKTn6QjVXbvtFbeZciWBFGRDMZnPGHJl+uRv4eE98AO1g+/V9HDzDoCVIOlOPHqHeOpKis2fPuOP+rT4IgExeiJjgffAC6tExS8jfqC/10X/00L7dDzgjHR67op81eS7FQYBOaGu5t/QtTs5H6IvcpETS8L6R74XRfVkvxUeLLTojP5dAaDbhxlYVghb2Q7K1V5sC/TVxLSOkaEU82h8jNQxsQRkx3SDys5U3ePfVPM1FhyR3jel71KQhO10js6207EGXE0iOsGKTC0M6TUSbKp61Mf74scV+g4nOcIFa5klKwFZydbf6AQTvixOGHX6QL+d4yPJbA88+Rlz0MAR/IEHUvlyG+dZVKq17FUcI2ib4YCF2uKczm/zhEHYVQ2Y/PaXMKP7QqRebVZp/YDvdKIwYxyppy4fp44iplirzb4a9oXYEd8uc35wwFhhYW9x3Qrja4mGHLowj+L7iLqBxBL4MhVCSp4yjR/ew2kxbHgsC1dFKgRtodTwFjc3h+DLqDNJy4z1D0QHiY32QTtd5uJkLodtIA=
+  - secure: NZoZBHYZzFN5G8E2mnBfD1noUmEKh9f6COS7ZNmHT3ADyKynmoPIlYGfi/3UtXggsKS7x81NdYMcpq93dujBMQhd9P4u2bwWUigUQ4qmprA+Q0tpqyNCH4BuoWb3tzVNX2qh90SuO4CMwYtRnsQs99dVLGZdhf7Uhj/lCSnlZrPGuEIVDk53bZ87ynkhqvav+Piqu/w1MYDGzArIvQw1QC+gKV6BVsAh1l1fPyDajqIehemJbF2MA83gyKWxKmG+RvOe604cszbMbUoVKah6HthwpP4uL4pEbol+1q5/vhrnyyINxyuQl2gBN35owr0YAw/kMSeHxOzJQvr4FBysmmdbB6Gb50LN7iGxiHXyjg6ou2+dv4o/o9FLJRRkizr2dMv99R5awKUEf3Ubz8wjuQj9KQHpYrVeRJKNofZlDhIcIIXwkgZcxnYzeo4vKNZPFIUkYrj9pqrt5yUNo+bkKH8z8y0GWxEkzRRwoGxmSx6V+EtZ53Mly0xxKU59lrRb0l5tTIENSVB/zvw7xo+RkYRFCFLg5zaLl0HiwVEBIeAcu39ADMHoT4WDV61rzTKCmBgKFG4HBbtw67/r30PdbtxzUiqiVHCzK4+TnCRwcO140nVZDbtnY2jZ3ixHGo4cqjQjxdNhL/HdSsopblXMEqrJiu/F3YE77kYvEHuo4tk=
