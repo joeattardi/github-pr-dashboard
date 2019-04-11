@@ -1,0 +1,17 @@
+version: "2"
+services:
+  github-dashboard-lb:
+    ports:
+     - 8080
+    image: rancher/lb-service-haproxy:v0.9.1
+  github-dashboard:
+    container_name: 'github-dashboard'
+    image: 859455775147.dkr.ecr.us-east-2.amazonaws.com/express/github-dashboard
+    restart: 'always'
+    stdin_open: true
+    tty: true
+    logging:
+      driver: awslogs
+      options:
+        awslogs-region: "us-east-2"
+        awslogs-group: "/rancher/github-dashboard"
