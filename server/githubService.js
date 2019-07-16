@@ -119,6 +119,11 @@ exports.getRepo = function getRepo(owner, name) {
   return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);
 };
 
+exports.listOrganizationRepos = function listRepos(owner) {
+  const config = configManager.getConfig();
+  return apiCall(`${config.apiBaseUrl}/orgs/${owner}/repos`).then(response => response.data);
+};
+
 exports.loadPullRequests = function loadPullRequests() {
   const config = configManager.getConfig();
   const repos = config.repos;

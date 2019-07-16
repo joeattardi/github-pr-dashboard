@@ -17,6 +17,7 @@ emoji.init();
 app.get('/pulls', requestHandlers.getPullRequests);
 app.get('/config', requestHandlers.getConfig);
 app.get('/repoExists', requestHandlers.repoExists);
+app.get('/scanOrgRepos', requestHandlers.scanOrgRepos);
 app.put('/config', requestHandlers.updateConfig);
 app.get('*', (req, res) => {
   res.sendFile(path.resolve('dist', 'index.html'));
