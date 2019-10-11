@@ -14,10 +14,10 @@ function apiCall(url, headers = {}) {
     }
   } else if (config.token ) {
     options.auth = {
-      username: config.token 
+      username: config.token
     }
   };
-  
+
   return axios.get(url, options);
 }
 
@@ -114,6 +114,20 @@ function prIsStale(pr) {
   return false;
 }
 
+function getRepos() {
+  const config = configManager.getConfig();
+
+  let repositories = [].concat(config.repos);
+  const promises = config.owners.map(owner => apiCall(`${config.apiBaseUrl}/users/${owner}/repos`));
+  return Promise.all(promises).then(results => {
+    results.forEach(result => {
+      repositories = repositories.concat(result.data.map(repo => repo.full_name));
+    });
+    repositories.sort();
+    return repositories;
+  });
+}
+
 exports.getRepo = function getRepo(owner, name) {
   const config = configManager.getConfig();
   return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);
@@ -121,9 +135,10 @@ exports.getRepo = function getRepo(owner, name) {
 
 exports.loadPullRequests = function loadPullRequests() {
   const config = configManager.getConfig();
-  const repos = config.repos;
-
-  return getPullRequests(repos).then(prs => {
+  return getRepos().then(repos => {
+    return getPullRequests(repos)
+  })
+  .then(prs => {
     const commentsPromises = prs.map(pr => getPullRequestComments(pr));
     return Promise.all(commentsPromises).then(() => prs);
   })
