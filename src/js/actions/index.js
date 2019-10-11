@@ -4,10 +4,12 @@ export const ActionTypes = {
   ADD_PULL_REQUESTS: 'ADD_PULL_REQUESTS',
   UPDATE_PULL_REQUEST: 'UPDATE_PULL_REQUEST',
   SET_FAILED_REPOS: 'SET_FAILED_REPOS',
+  SET_FAILED_OWNERS: 'SET_FAILED_OWNERS',
   REFRESH: 'REFRESH',
   START_LOADING: 'START_LOADING',
   SET_ERROR: 'SET_ERROR',
   SET_REPOS: 'SET_REPOS',
+  SET_OWNERS: 'SET_OWNERS',
   SET_TITLE: 'SET_TITLE',
   SORT: 'SORT'
 };
@@ -19,7 +21,14 @@ export function setError(error) {
   };
 }
 
-export function setRepos(repos) {
+export function setRepos(owners) {
+  return {
+    type: ActionTypes.SET_OWNERS,
+    owners
+  };
+}
+
+export function setOwners(repos) {
   return {
     type: ActionTypes.SET_REPOS,
     repos

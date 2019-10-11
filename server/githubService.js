@@ -128,6 +128,11 @@ function getRepos() {
   });
 }
 
+exports.getOwner = function getOwner(owner) {
+  const config = configManager.getConfig();
+  return apiCall(`${config.apiBaseUrl}/users/${owner}`);
+};
+
 exports.getRepo = function getRepo(owner, name) {
   const config = configManager.getConfig();
   return apiCall(`${config.apiBaseUrl}/repos/${owner}/${name}`);

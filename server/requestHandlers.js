@@ -35,3 +35,11 @@ exports.repoExists = function getConfig(req, res) {
     res.status(404).json(false);
   });
 };
+
+exports.ownerExists = function getConfig(req, res) {
+  githubService.getOwner(req.query.owner).then(() => {
+    res.status(200).json(true);
+  }).catch(() => {
+    res.status(404).json(false);
+  });
+};

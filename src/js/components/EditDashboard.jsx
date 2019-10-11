@@ -5,6 +5,7 @@ import axios from 'axios';
 import { refresh, loadPullRequests } from '../actions';
 
 import AddRepo from './AddRepo';
+import AddOwner from './AddOwner';
 import EmojiList from './EmojiList';
 
 class EditDashboard extends React.Component {
@@ -15,6 +16,7 @@ class EditDashboard extends React.Component {
       config: {
         title: '',
         repos: [],
+        owners: [],
         comments: {
           positive: [],
           negative: []
@@ -31,6 +33,8 @@ class EditDashboard extends React.Component {
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
     this.addRepo = this.addRepo.bind(this);
     this.removeRepo = this.removeRepo.bind(this);
+    this.addOwner = this.addOwner.bind(this);
+    this.removeOwner = this.removeOwner.bind(this);
     this.saveConfig = this.saveConfig.bind(this);
     this.cancel = this.cancel.bind(this);
     this.addPositive = this.addPositive.bind(this);
@@ -86,6 +90,21 @@ class EditDashboard extends React.Component {
   removeRepo(event) {
     const repo = event.target.dataset.name;
     this.state.config.repos = this.state.config.repos.filter(r => r !== repo);
+    this.setState({
+      config: this.state.config
+    });
+  }
+
+  addOwner(owner) {
+    this.state.config.owners.push(`${owner}`);
+    this.setState({
+      config: this.state.config
+    });
+  }
+
+  removeOwner(event) {
+    const owner = event.target.dataset.name;
+    this.state.config.owners = this.state.config.owners.filter(r => r !== owner);
     this.setState({
       config: this.state.config
     });
@@ -147,6 +166,22 @@ class EditDashboard extends React.Component {
               type="text" id="boardTitle"
               value={this.state.config.title} onChange={this.handleChangeTitle}
             />
+          </div>
+
+          <div>
+            <h2>User or Organization</h2>
+
+            {this.state.config.owners.map(owner =>
+              <div className="item" key={owner}>
+                <img role="presentation" src="images/repo.svg" />
+                &nbsp;
+                {owner}
+                &nbsp;
+                <i className="fa fa-times" data-name={owner} onClick={this.removeOwner} />
+              </div>
+            )}
+
+            <AddOwner owners={this.state.config.owners} onAddOwner={this.addOwner} />
           </div>
 
           <div>

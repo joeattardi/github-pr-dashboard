@@ -21,6 +21,15 @@ export function titleReducer(state = '', action) {
   }
 }
 
+export function ownersReducer(state = [], action) {
+  switch (action.type) {
+    case ActionTypes.SET_OWNERS:
+      return action.owners;
+    default:
+      return state;
+  }
+}
+
 export function reposReducer(state = [], action) {
   switch (action.type) {
     case ActionTypes.SET_REPOS:

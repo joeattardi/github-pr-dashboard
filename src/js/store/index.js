@@ -4,6 +4,7 @@ import thunk from 'redux-thunk';
 import {
   loadingReducer,
   reposReducer,
+  ownersReducer,
   titleReducer,
   pullRequestsReducer,
   failedReposReducer,
@@ -15,6 +16,7 @@ export default function configureStore() {
   const reducer = combineReducers({
     pullRequests: pullRequestsReducer,
     repos: reposReducer,
+    owners: ownersReducer,
     failedRepos: failedReposReducer,
     loading: loadingReducer,
     error: errorReducer,
