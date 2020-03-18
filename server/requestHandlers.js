@@ -47,3 +47,15 @@ exports.repoExists = function getConfig(req, res) {
       res.status(404).json(false);
     });
 };
+
+exports.scanOrgRepos = function scanOrgRepos(req, res) {
+  githubService.listOrganizationRepos(req.query.owner).then(repos => {
+    res.status(200).json(repos.map(repo => ({ id: repo.id, name: repo.name })));
+  }).catch(error => {
+    console.error(`Error loading organization repos: ${error.message}`);
+    console.error(error);
+    res.status(500).json({
+      error: `Failed to load organization repos: ${error.message}`
+    });
+  });
+};

@@ -39,19 +39,19 @@ export default class AddRepo extends React.Component {
         error: 'That repository has already been added.'
       });
     } else {
-      axios.get(`/repoExists?owner=${this.state.owner}&repo=${this.state.repo}`)
-        .then(() => {
-          this.props.onAddRepo(this.state.owner, this.state.repo);
-          this.setState({
-            owner: '',
-            repo: '',
-            error: ''
+      if (!this.state.repo) {
+        axios.get(`/scanOrgRepos?owner=${this.state.owner}`)
+        .then(({ data: repos }) => {
+          repos.forEach(repo => {
+            if (!this.props.repos.indexOf(`${this.state.owner}/${repo.name}`) >= 0) {
+              this.props.onAddRepo(this.state.owner, repo.name);
+            }
           });
           document.getElementById('ownerInput').focus();
         }).catch((error) => {
-          if (error.response && error.response.status === 404) {
+          if (error.response) {
             this.setState({
-              error: 'That repository does not exist.'
+              error: error.response
             });
           } else {
             /* eslint-disable no-console */
@@ -61,6 +61,30 @@ export default class AddRepo extends React.Component {
             });
           }
         });
+      } else {
+        axios.get(`/repoExists?owner=${this.state.owner}&repo=${this.state.repo}`)
+          .then(() => {
+            this.props.onAddRepo(this.state.owner, this.state.repo);
+            this.setState({
+              owner: '',
+              repo: '',
+              error: ''
+            });
+            document.getElementById('ownerInput').focus();
+          }).catch((error) => {
+            if (error.response && error.response.status === 404) {
+              this.setState({
+                error: 'That repository does not exist.'
+              });
+            } else {
+              /* eslint-disable no-console */
+              console.error(error);
+              this.setState({
+                error: 'An unexpected error has occurred. Please try again.'
+              });
+            }
+          });
+      }
     }
   }
 
@@ -92,7 +116,7 @@ export default class AddRepo extends React.Component {
             type="text" value={this.state.repo}
             onChange={this.handleChangeRepo} placeholder="Repository" size="50"
           />
-          <button disabled={!(this.state.owner.length && this.state.repo.length)}>Add</button>
+          <button disabled={!(this.state.owner.length)}>Add</button>
         </form>
       </div>
     );
