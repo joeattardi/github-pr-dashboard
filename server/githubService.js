@@ -1,8 +1,11 @@
 const axios = require('axios');
+const tunnel = require('tunnel');
 
 const configManager = require('./configManager');
 const emoji = require('./emoji');
 const reviews = require('./reviews');
+
+
 
 function apiCall(url, headers = {}) {
   const config = configManager.getConfig();
@@ -14,10 +17,19 @@ function apiCall(url, headers = {}) {
     }
   } else if (config.token ) {
     options.auth = {
-      username: config.token 
+      username: config.token
     }
   };
-  
+
+  if (config.sslTunnel) {
+     options.httpsAgent = tunnel.httpsOverHttp({
+       proxy: {
+         host: config.sslTunnel.host,
+         port: config.sslTunnel.port
+       },
+     });
+     options.proxy = false;
+  };
   return axios.get(url, options);
 }
 
