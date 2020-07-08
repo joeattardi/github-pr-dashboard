@@ -1,9 +1,10 @@
 $link-color: #02779E;
-$badge-color: #354250;
+$badge-color: black;
 $error-color: #C34444;
 $warning-color: #DFBA57;
 $success-color: #4AD964;
 $repo-link-color: #bbdde1;
+$header-container-color: gray;
 
 body {
   background-color: #EEEEEE;
@@ -320,10 +321,11 @@ button {
 }
 
 .container-header {
+  color: white;
   padding: 0.5rem;
   display: flex;
   align-items: center;
-  background-color: #C4D2E6;
+  background-color: $header-container-color;
   box-shadow: 1px 1px 1px #999999;
 
   h1 {
@@ -332,7 +334,7 @@ button {
 
   #pr-count, #repo-count {
     font-size: 2em;
-    margin-left: 0.5em;
+    margin-left: 1.5em;
 
     img {
       width: 0.8em;

@@ -1,0 +1,25 @@
+version: 0.2
+phases:
+  install:
+    commands:
+      - echo Entered the install phase...
+      - apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 0x219BD9C9
+      - echo "deb http://repos.azulsystems.com/ubuntu stable main" >> /etc/apt/sources.list.d/zulu.list
+      - apt-get install -y wget unzip
+      - wget https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip
+      - unzip terraform_0.*.zip
+      - mv terraform /usr/local/bin
+  build:
+    commands:
+      - echo Entered the build phase...
+      - echo Build started on `date`
+      - ls -la
+      - cd devops/deploy
+      - terraform init
+      - terraform apply -auto-approve
+  post_build:
+    commands:
+      - if $CODEBUILD_BUILD_SUCCEEDING -eq "0"; then exit 1; fi
+      - echo Entered the post_build phase..
+      - export PATCH_VERSION=$(($PATCH_VERSION+1))
+

@@ -55,13 +55,6 @@ export function updatePullRequest(pullRequest) {
   };
 }
 
-export function addFailedRepo(failedRepo) {
-  return {
-    type: ActionTypes.ADD_FAILED_REPO,
-    failedRepo
-  };
-}
-
 export function loadPullRequests() {
   return (dispatch, getState) => {
     const { sortOptions } = getState();
